@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour
+{
     public Vector2 currentDirection;
     public float speed;
     // Use this for initialization
@@ -14,11 +15,14 @@ public class Character : MonoBehaviour {
 	void Update () {
         currentDirection = Vector2.zero;
 	}
+    //POR LO MENOS SACA LOS COMENTARIOS FORRA JAJAJAJAJ
     public void Move(Vector2 direction) //Movimiento slime
     {
         currentDirection += direction;
         this.GetComponent<Rigidbody2D>().velocity = currentDirection * speed;
     }
-    public void Shoot() {
+    public void Shoot()
+    {
+        BulletSpawn.bulletPool.GetObj();
     }
 }

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContraMAII", "ContraMAII.csproj", "{B835DD8B-787B-DAA9-645F-E59777AAA4FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B835DD8B-787B-DAA9-645F-E59777AAA4FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B835DD8B-787B-DAA9-645F-E59777AAA4FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B835DD8B-787B-DAA9-645F-E59777AAA4FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B835DD8B-787B-DAA9-645F-E59777AAA4FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
