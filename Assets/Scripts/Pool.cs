@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class Pool<T>
 {
-    private int _stock;
-    private bool dinamic = false;
-
-    private List<PoolObject<T>> _poolList;
+    private List<PoolObject<T>> _poolList; 
     public delegate T CallbackFactory();
-    private PoolObject<T>.PoolCallBack _init;
-    private PoolObject<T>.PoolCallBack _finalize; 
+
+    private int _stock;
+    private bool _dinamic = false;
+    private PoolObject<T>.PoolCallback _init; 
+    private PoolObject<T>.PoolCallback _finalize;
     private CallbackFactory _factory;
 
-    #region pool
-    public Pool(int initialStock, CallbackFactory factory, PoolObject<T>.PoolCallBack initialize, PoolObject<T>.PoolCallBack finalize, bool isDinamic)
+    public Pool(int initialStock, CallbackFactory factory, PoolObject<T>.PoolCallback initialize, PoolObject<T>.PoolCallback finalize, bool isDinamic)
     {
         _poolList = new List<PoolObject<T>>(); 
 
         _factory = factory;
-        dinamic = isDinamic;
+        _dinamic = isDinamic;
         _stock = initialStock;
         _init = initialize;
         _finalize = finalize;
@@ -29,69 +28,59 @@ public class Pool<T>
             _poolList.Add(new PoolObject<T>(_factory(), _init, _finalize));
         }
     }
-    #endregion
 
-    #region get pool
-    public PoolObject<T> GetPool()
+    public PoolObject<T> GetPoolObject()
     {
         for (int i = 0; i < _stock; i++)
         {
-            if (!_poolList[i].IsActive)
+            if (!_poolList[i].isActive)
             {
-                _poolList[i].IsActive = true;
+                _poolList[i].isActive = true;
                 return _poolList[i];
             }
         }
-
-        if (dinamic)
+        if (_dinamic)
         {
             PoolObject<T> po = new PoolObject<T>(_factory(), _init, _finalize);
-
-            po.IsActive = true;
+            po.isActive = true;
             _poolList.Add(po);
             _stock++;
             return po;
         }
-
         return null;
     }
-    #endregion
 
-    #region Get obj
-    public T GetObj()
+    public T GetObject()
     {
+
         for (int i = 0; i < _stock; i++)
         {
-            if (!_poolList[i].IsActive)
+            if (!_poolList[i].isActive)
             {
-                _poolList[i].IsActive = true;
-                return _poolList[i].GetObj;
+                _poolList[i].isActive = true;               
+                return _poolList[i].GetObj; 
             }
         }
-
-        if (dinamic)
+        if (_dinamic)
         {
             PoolObject<T> po = new PoolObject<T>(_factory(), _init, _finalize);
-            po.IsActive = true;
+            po.isActive = true;
             _poolList.Add(po);
             _stock++;
             return po.GetObj;
         }
         return default(T);
     }
-    #endregion
 
-    #region disable
-    public void DisablePool(T obj)
+    public void Disable(T obj)
     {
-        foreach (PoolObject<T> po in _poolList)
+        foreach (PoolObject<T> poolObj in _poolList)
         {
-            if (po.GetObj.Equals(obj))
+            if (poolObj.GetObj.Equals(obj))
             {
-                po.IsActive = false;
+                poolObj.isActive = false;
                 return;
             }
         }
     }
-    #endregion
 }

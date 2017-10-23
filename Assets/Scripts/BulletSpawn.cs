@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class BulletSpawn : MonoBehaviour
 {
-    public Bullet prefab;
-    public static Pool<Bullet> bulletPool;
+    public Bullet bPrefab; 
+    public static Pool<Bullet> bulletPool;   
 
     private static BulletSpawn _instance;
-
-    public static BulletSpawn instance
-    {
-        get { return _instance; }
-    }
+    public static BulletSpawn Instance { get { return _instance; } }
 
     void Awake()
     {
         _instance = this;
-        bulletPool = new Pool<Bullet>(5, BulletFactory, Bullet.InitBullet, Bullet.DisposeBullet, true);
+        bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
     }
 
-    public Bullet BulletFactory()
+    void Update()
     {
-        return Instantiate<Bullet>(prefab);
     }
 
-     public void ReturnBullet(Bullet b)
+    private Bullet BulletFactory()
     {
-        bulletPool.DisablePool(b); 
+        return Instantiate<Bullet>(bPrefab);
+    }
+
+    public void ReturnBulletToPool(Bullet bullet)
+    {
+        bulletPool.Disable(bullet);
     }
 }

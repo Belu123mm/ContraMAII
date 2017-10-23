@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PoolObject<T>
 {
-    public bool _active;
-    public T _obj;
-    public delegate void PoolCallBack(T obj);
-    public PoolCallBack _initPool;
-    public PoolCallBack _finalizationPool;
+    private bool active;
+    private T _obj;
+    public delegate void PoolCallback(T obj);
+    private PoolCallback _initi;
+    private PoolCallback _finalization;
 
-    public PoolObject(T obj, PoolCallBack initialization, PoolCallBack finalization)
+    public PoolObject(T obj, PoolCallback initialization, PoolCallback finalization)
     {
-        _obj = obj;
-        _initPool = initialization;
-        _finalizationPool = finalization;
-        _active = false;
+        _obj = obj; 
+        _initi = initialization;
+        _finalization = finalization; 
+        isActive = false;
     }
 
     public T GetObj
@@ -23,22 +23,22 @@ public class PoolObject<T>
         get { return _obj; }
     }
 
-    public bool IsActive
+    public bool isActive
     {
-        get { return _active; }
+        get { return active; }
 
-        set
+        set 
         {
-            _active = value;
-            if (_active)
+            active = value;
+            if (active)
             {
-                if (_initPool != null)
-                    _initPool(_obj);              
+                if (_initi != null) 
+                    _initi(_obj); 
             }
             else
             {
-                if (_finalizationPool != null)
-                    _finalizationPool(_obj);
+                if (_finalization != null) 
+                    _finalization(_obj);
             }
         }
     }

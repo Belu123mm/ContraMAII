@@ -21,7 +21,7 @@ public class Brain : MonoBehaviour {
         else if (Input.GetAxis("Vertical") < 0)
             this.GetComponent<Character>().Move(Vector2.down * -Input.GetAxis("Vertical"));//Bysebs
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             this.GetComponent<Character>().Shoot();
         }

@@ -5,39 +5,52 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed;
-    public float cMurio;
-    public float timeToDie;
+    public float distance;
+    public float maxDistance;
+    public bool cMurio;
 
-	void Start ()
+    void Start()
     {
 
-	}
-	
-	void Update ()
+   //     transform.position = Character.myPos;
+    }
+    void Update()
     {
-        cMurio += Time.deltaTime;
-        if (cMurio >= timeToDie)
+        distance = Vector3.Distance(Character.myPos, transform.position);
+
+        if (cMurio || distance > maxDistance)
         {
-            BulletSpawn.instance.ReturnBullet(this);
+            BulletSpawn.Instance.ReturnBulletToPool(this);
         }
         else
-            transform.position += transform.forward * speed * Time.deltaTime;
+        {
+            GetComponent<Rigidbody2D>().velocity = transform.right * speed;
+        }
     }
 
-    public void init()
+    public void Initialize()
     {
-        cMurio = 0;
+        distance = 0;
         transform.position = Vector3.zero;
     }
 
-    public static void InitBullet(Bullet bullet)
+    public static void InitializeBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(true);
-        bullet.init();
+        bullet.Initialize();
     }
 
     public static void DisposeBullet(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
     }
+
+    public void OnCollisionEnter2D(Collision2D c)
+    {
+        if (c.gameObject.tag == "Enemy")
+        {
+            cMurio = true;
+        }
+    }
 }
+
