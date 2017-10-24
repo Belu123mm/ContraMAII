@@ -16,10 +16,6 @@ public class BulletSpawn : MonoBehaviour
         bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
     }
 
-    void Update()
-    {
-    }
-
     private Bullet BulletFactory()
     {
         return Instantiate<Bullet>(bPrefab);

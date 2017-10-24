@@ -6,7 +6,7 @@ public class Character : MonoBehaviour
 {
     public Vector2 currentDirection;
     public float speed;
-    public static Vector3 myPos;
+    public static Vector2 myPos;
     public static bool shoot;
     // Use this for initialization
     void Start ()
@@ -24,7 +24,7 @@ public class Character : MonoBehaviour
     public void Move(Vector2 direction) //Movimiento slime
     {
         currentDirection += direction;
-        this.GetComponent<Rigidbody2D>().velocity = currentDirection * speed;
+        GetComponent<Rigidbody2D>().velocity = currentDirection * speed;
     }
     public void Shoot()
     {
