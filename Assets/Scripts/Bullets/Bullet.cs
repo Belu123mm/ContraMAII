@@ -8,16 +8,15 @@ public class Bullet : MonoBehaviour
     public float speed;
     public float distance;
     public float maxDistance;
-    public bool cMurio;    
+    public bool cMurio;
 
     void Start()
     {
-       transform.position = Character.myPos;
     }
     void Update()
     {
-        distance = Vector2.Distance(Character.myPos, transform.position);
 
+        distance = Vector2.Distance(BulletSpawn.character.position, transform.position);
         if (cMurio || distance > maxDistance)
         {
             BulletSpawn.Instance.ReturnBulletToPool(this);
@@ -31,7 +30,7 @@ public class Bullet : MonoBehaviour
     public void Initialize()
     {
         distance = 0;
-        transform.position = Vector2.zero;
+        transform.position = BulletSpawn.character.position;
     }
 
     public static void InitializeBullet(Bullet bullet)

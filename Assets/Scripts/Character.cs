@@ -20,14 +20,13 @@ public class Character : MonoBehaviour
         myPos = transform.position;
         currentDirection = Vector2.zero;
 	}
-    //POR LO MENOS SACA LOS COMENTARIOS FORRA JAJAJAJAJ
-    public void Move(Vector2 direction) //Movimiento slime
+    public void Move(Vector2 direction)
     {
         currentDirection += direction;
         GetComponent<Rigidbody2D>().velocity = currentDirection * speed;
     }
     public void Shoot()
     {
-        BulletSpawn.bulletPool.GetObject();
+        BulletSpawn.PerformSoot();
     }
 }

@@ -9,11 +9,14 @@ public class BulletSpawn : MonoBehaviour
 
     private static BulletSpawn _instance;
     public static BulletSpawn Instance { get { return _instance; } }
+    public static Transform character;
+    public static IShoot shootBehaviour;
 
     void Awake()
     {
         _instance = this;
         bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
+        character = GetComponentInParent<Transform>();
     }
 
     private Bullet BulletFactory()
@@ -24,5 +27,9 @@ public class BulletSpawn : MonoBehaviour
     public void ReturnBulletToPool(Bullet bullet)
     {
         bulletPool.Disable(bullet);
+    }
+    public static void PerformSoot()
+    {
+        shootBehaviour.Shoot();
     }
 }
