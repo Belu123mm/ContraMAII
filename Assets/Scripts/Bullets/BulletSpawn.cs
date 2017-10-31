@@ -32,4 +32,17 @@ public class BulletSpawn : MonoBehaviour
     {
         shootBehaviour.Shoot();
     }
+    public void Update() {/*
+        switch () {     //Formas de hacer esto sin romper con solid :V
+            case:
+            shootBehaviour = new OneShoot();
+            break;
+            case:
+            shootBehaviour = new Spread();
+            break;
+            case:
+            shootBehaviour = new Sinusoidal();
+            break;
+        }*/
+    }
 }

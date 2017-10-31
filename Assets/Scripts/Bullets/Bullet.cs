@@ -10,12 +10,10 @@ public class Bullet : MonoBehaviour
     public float maxDistance;
     public bool cMurio;
 
-    void Start()
-    {
-    }
     void Update()
     {
-
+        //Usar forward? para hacer que las balas avancen. Por que despues no se me ocurre como hacerlo
+        //Para la sinusoidal. 
         distance = Vector2.Distance(BulletSpawn.character.position, transform.position);
         if (cMurio || distance > maxDistance)
         {

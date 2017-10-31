@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e05738be4faf0f449b9acd902596d6f2
+timeCreated: 1509462907
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Fami Sans
+  fontNames:
+  - Fami Sans
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
