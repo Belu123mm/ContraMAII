@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour
     public float maxDistance;
     public bool cMurio;
 
+    public static IShoot shootStrategy;
+
     void Update()
     {
         //Usar forward? para hacer que las balas avancen. Por que despues no se me ocurre como hacerlo
@@ -21,7 +23,30 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            GetComponent<Rigidbody2D>().velocity = transform.right * speed;
+
+            if (Character.normal)
+            {
+                //no llega aca
+                shootStrategy = new OneShoot();
+                Debug.Log("b");
+            }
+            else if (Character.spread)
+            {
+                //ak tampoco
+                shootStrategy = new Spread();
+                Debug.Log("s");
+            }
+            else if (Character.sinusoidal)
+            {
+                //ak menos
+                shootStrategy = new Sinusoidal();
+                Debug.Log("sn");
+            }
+
+            if (shootStrategy != null)
+            {
+                shootStrategy.Shoot();
+            }
         }
     }
 
@@ -48,6 +73,25 @@ public class Bullet : MonoBehaviour
         {
             cMurio = true;
         }
+    }
+
+    void Awake()
+    {
+        shootStrategy = new OneShoot();
+        shootStrategy = new Spread();
+        shootStrategy = new Sinusoidal();
+    }
+
+    public enum ShootStrategy
+    {
+        Normal,
+        Spread,
+        Sinusoidal
+    }
+
+    public static void PerformShoot()
+    {
+        shootStrategy.Shoot();
     }
 }
 

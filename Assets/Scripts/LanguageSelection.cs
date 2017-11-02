@@ -3,46 +3,106 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class LanguageSelection : MonoBehaviour {
-    public static string lng;
+using UnityEditor;
+
+public class LanguageSelection : MonoBehaviour
+{
     public Scene actualScene;
-    public Text _menuText;
-    public Dictionary<string, string> actualLanguage;
+    public static Dictionary<string, string> actualLanguage;
     public Dictionary<string, string> spanish = new Dictionary<string, string>();
     public Dictionary<string, string> english = new Dictionary<string, string>();
 
-    // Use this for initialization
+    public Button _menuText;
+    public Button playBt;
+    public Button creditsBt;
+    public Button spanishBt;
+    public Button englishBt;
+    public Button languageBt;
 
-    public void Awake() {
+    #region
+    public void Awake()
+    {
+        DontDestroyOnLoad(this);
         actualScene = SceneManager.GetActiveScene();
-        actualLanguage = spanish;
-        //Declaro los diccionarios para el tema del idioma
-        spanish.Add("menuText", "Presiona Enter para empezar");
-        english.Add("menuText", "Press Enter to begin");
-        spanish.Add("language", "Idioma");
-        english.Add("language", "Language");
-        spanish.Add("options", "Opciones");
-        english.Add("options", "Options");
-        spanish.Add("score", "Puntos");
-        english.Add("score", "Score");
-        spanish.Add("life", "Vidas");
-        english.Add("life", "Lifes");
-
-    }
-    void Start() {
-        //Nose como hacer para encontrar los Text por nombre.. a menos que los declare por unity pero no quiero :V #HailToCode
-    }
-
-    // Update is called once per frame
-    void Update() {
-        //Veo el tema del idioma actual (necesitounenum)
-        if(lng == "spanish" ) 
+        if (actualLanguage == null)
             actualLanguage = spanish;
-        else if(lng == "english" ) 
-            actualLanguage = english;
+        //Busco los botones
+        playBt = GameObject.Find("Jugar").GetComponent<Button>();
+        //Declaro los diccionarios para el tema del idioma
+        english.Add("score", "Score");
+        english.Add("life", "Lifes");
+        english.Add("startText", "Press Enter to begin");
+        english.Add("language", "Language");
+        english.Add("options", "Options");
+        english.Add("english", "English");
+        english.Add("spanish", "Spanish");
+        english.Add("credits", "Credits");
+        english.Add("menu", "Menu");
+        spanish.Add("score", "Puntos");
+        spanish.Add("life", "Vidas");
+        spanish.Add("startText", "Presiona Enter para empezar");
+        spanish.Add("language", "Idioma");
+        spanish.Add("options", "Opciones");
+        spanish.Add("english", "Ingles");
+        spanish.Add("spanish", "Español");
+        spanish.Add("credits", "Creditos");
+        spanish.Add("menu", "Menu");
 
-        //Declaro el tema de las strngs que no tengo idea como hacerlo :V
-        _menuText.text = actualLanguage["menuText"];
+    }
+    #endregion
 
+    public void idioma()
+    {
+        SceneManager.LoadScene("Idioma");
+    }
+    public void Spanish()
+    {
+        actualLanguage = spanish;
+        SetLanguage();
+        /*spanishBt.GetComponentInChildren<Text>().text = "Español";
+        englishBt.GetComponentInChildren<Text>().text = "Inglés";
+        playBt.GetComponentInChildren<Text>().text = "Jugar";
+        creditsBt.GetComponentInChildren<Text>().text = "Créditos";
+        languageBt.GetComponentInChildren<Text>().text = "Idioma";
+        */
+
+    }
+    public void English()
+    {
+        actualLanguage = english;
+        SetLanguage();
+        /*
+        spanishBt.GetComponentInChildren<Text>().text = "Spanish";
+        englishBt.GetComponentInChildren<Text>().text = "English";
+        playBt.GetComponentInChildren<Text>().text = "Play";
+        creditsBt.GetComponentInChildren<Text>().text = "Credits";
+        languageBt.GetComponentInChildren<Text>().text = "Language";
+        */
+    }
+    public void SetLanguage()
+    {
+        if (spanishBt)
+            spanishBt.GetComponentInChildren<Text>().text = actualLanguage["spanish"];
+        if (englishBt)
+            englishBt.GetComponentInChildren<Text>().text = actualLanguage["english"];
+        if (playBt)
+            playBt.GetComponentInChildren<Text>().text = actualLanguage["startText"];
+        if (creditsBt)
+            creditsBt.GetComponentInChildren<Text>().text = actualLanguage["credits"];
+        if (languageBt)
+            languageBt.GetComponentInChildren<Text>().text = actualLanguage["language"];
+
+    }
+    public void irAJuego()
+    {
+        SceneManager.LoadScene("main");
+    }
+    public void Creditos()
+    {
+        SceneManager.LoadScene("Creditos");
+    }
+    public void IrAMenu()
+    {
+        SceneManager.LoadScene("Start");
     }
 }

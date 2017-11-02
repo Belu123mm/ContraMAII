@@ -8,18 +8,30 @@ public class Character : MonoBehaviour
     public float speed;
     public static Vector2 myPos;
     public static bool shoot;
+    public static bool normal;
+    public static bool spread;
+    public static bool sinusoidal;
     // Use this for initialization
-    void Start ()
+    void Start()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        normal = true;
+        spread = false;
+        sinusoidal = false;
+        print("n " + normal + " s " + spread + " sn " + sinusoidal);
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         myPos = transform.position;
         currentDirection = Vector2.zero;
-	}
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            print("n1 " + normal + "s2 " + spread + "sn3 " + sinusoidal);
+            //llega pero hace lo que quiere. Toma sinusoidal porque puede y no se fija en la bullet
+            Bullet.PerformShoot();
+        }
+    }
     public void Move(Vector2 direction)
     {
         currentDirection += direction;
