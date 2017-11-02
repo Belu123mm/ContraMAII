@@ -14,10 +14,10 @@ public class Character : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        normal = true;
+        normal = false;
         spread = false;
-        sinusoidal = false;
-        print("n " + normal + " s " + spread + " sn " + sinusoidal);
+        sinusoidal = true;
+       // print("n " + normal + " s " + spread + " sn " + sinusoidal);
     }
 
     // Update is called once per frame
@@ -27,9 +27,10 @@ public class Character : MonoBehaviour
         currentDirection = Vector2.zero;
         if (Input.GetKeyDown(KeyCode.B))
         {
-            print("n1 " + normal + "s2 " + spread + "sn3 " + sinusoidal);
+         //   print("n1 " + normal + "s2 " + spread + "sn3 " + sinusoidal);
             //llega pero hace lo que quiere. Toma sinusoidal porque puede y no se fija en la bullet
-            Bullet.PerformShoot();
+            // Bullet.PerformShoot();
+            BulletSpawn.bulletPool.GetObject();
         }
     }
     public void Move(Vector2 direction)

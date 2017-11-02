@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletSpawn : MonoBehaviour
 {
-    public Bullet bPrefab; 
-    public static Pool<Bullet> bulletPool;   
+    public Bullet bPrefab;
+    public static Pool<Bullet> bulletPool;
 
     private static BulletSpawn _instance;
     public static BulletSpawn Instance { get { return _instance; } }
@@ -32,17 +32,9 @@ public class BulletSpawn : MonoBehaviour
     {
         shootBehaviour.Shoot();
     }
-    public void Update() {/*
-        switch () {     //Formas de hacer esto sin romper con solid :V
-            case:
-            shootBehaviour = new OneShoot();
-            break;
-            case:
-            shootBehaviour = new Spread();
-            break;
-            case:
-            shootBehaviour = new Sinusoidal();
-            break;
-        }*/
+
+    public void Update()
+    {
+
     }
 }

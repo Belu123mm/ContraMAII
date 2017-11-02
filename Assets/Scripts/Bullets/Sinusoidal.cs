@@ -8,5 +8,7 @@ public class Sinusoidal : IShoot
     public void Shoot()
     {
         //Ver el tema del cos y el sen para esto owo
+        Debug.Log("estacosarara");
+        
     }
 }

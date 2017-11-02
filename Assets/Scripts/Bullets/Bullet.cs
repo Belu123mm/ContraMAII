@@ -14,33 +14,36 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
+     //   Debug.Log("Hola?");
         //Usar forward? para hacer que las balas avancen. Por que despues no se me ocurre como hacerlo
         //Para la sinusoidal. 
         distance = Vector2.Distance(BulletSpawn.character.position, transform.position);
         if (cMurio || distance > maxDistance)
         {
             BulletSpawn.Instance.ReturnBulletToPool(this);
+           // Debug.Log("Alo");
         }
         else
         {
+           // Debug.Log("entre");
 
             if (Character.normal)
             {
                 //no llega aca
                 shootStrategy = new OneShoot();
-                Debug.Log("b");
+             //   Debug.Log("b");
             }
             else if (Character.spread)
             {
                 //ak tampoco
                 shootStrategy = new Spread();
-                Debug.Log("s");
+               // Debug.Log("s");
             }
             else if (Character.sinusoidal)
             {
                 //ak menos
                 shootStrategy = new Sinusoidal();
-                Debug.Log("sn");
+              //  Debug.Log("sn");
             }
 
             if (shootStrategy != null)
