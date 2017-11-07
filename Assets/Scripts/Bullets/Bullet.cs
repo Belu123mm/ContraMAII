@@ -3,88 +3,70 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
     public float speed;
     public float distance;
     public float maxDistance;
     public bool cMurio;
+    public static Bullet bullet;
+    public static IShoot shootInterface;
+    public static ShootStrategy shootEnum;
 
-    public static IShoot shootStrategy;
+    void Update() {
 
-    void Update()
-    {
-     //   Debug.Log("Hola?");
-        //Usar forward? para hacer que las balas avancen. Por que despues no se me ocurre como hacerlo
-        //Para la sinusoidal. 
-        distance = Vector2.Distance(BulletSpawn.character.position, transform.position);
-        if (cMurio || distance > maxDistance)
+        shootEnum = BulletSpawn.shootEnum;
+        if ( shootInterface != null ) {
+            shootInterface.Shoot();
+        }
+        switch ( shootEnum )  
         {
+            case ShootStrategy.Normal:
+            OneShoot._bullet = this;
+            shootInterface = new OneShoot();  
+            break;
+            case ShootStrategy.Spread:
+            shootInterface = new Spread(); 
+            break;
+            case ShootStrategy.Sinusoidal:
+            shootInterface = new Sinusoidal(); 
+            break;
+
+            //Ver tema este xd 
+        }
+        if ( cMurio || distance > maxDistance ) {
             BulletSpawn.Instance.ReturnBulletToPool(this);
-           // Debug.Log("Alo");
-        }
-        else
-        {
-           // Debug.Log("entre");
+            // Debug.Log("Alo");
 
-            if (Character.normal)
-            {
-                //no llega aca
-                shootStrategy = new OneShoot();
-             //   Debug.Log("b");
-            }
-            else if (Character.spread)
-            {
-                //ak tampoco
-                shootStrategy = new Spread();
-               // Debug.Log("s");
-            }
-            else if (Character.sinusoidal)
-            {
-                //ak menos
-                shootStrategy = new Sinusoidal();
-              //  Debug.Log("sn");
-            }
 
-            if (shootStrategy != null)
-            {
-                shootStrategy.Shoot();
-            }
         }
     }
 
-    public void Initialize()
-    {
+    public void Initialize() {
         distance = 0;
-        transform.position = BulletSpawn.character.position;
+        transform.position = BulletSpawn.character.position + new Vector3(0,0.05f,0);
     }
 
-    public static void InitializeBullet(Bullet bullet)
-    {
+    public static void InitializeBullet( Bullet bullet ) {
         bullet.gameObject.SetActive(true);
         bullet.Initialize();
     }
 
-    public static void DisposeBullet(Bullet bullet)
-    {
+    public static void DisposeBullet( Bullet bullet ) {
         bullet.gameObject.SetActive(false);
     }
 
-    public void OnCollisionEnter2D(Collision2D c)
-    {
-        if (c.gameObject.tag == "Enemy")
-        {
-            cMurio = true;
-        }
+    public void OnCollisionEnter2D( Collision2D c ) {
+        //  if ( c.gameObject.tag == "Enemy" ) {
+        //    cMurio = true;
+        BulletSpawn.Instance.ReturnBulletToPool(this);
+
     }
 
-    void Awake()
-    {
-        shootStrategy = new OneShoot();
-        shootStrategy = new Spread();
-        shootStrategy = new Sinusoidal();
-    }
 
+    public static void Shooting() {
+        shootInterface.Shoot();
+    }
+}
     public enum ShootStrategy
     {
         Normal,
@@ -92,9 +74,5 @@ public class Bullet : MonoBehaviour
         Sinusoidal
     }
 
-    public static void PerformShoot()
-    {
-        shootStrategy.Shoot();
-    }
-}
+
 

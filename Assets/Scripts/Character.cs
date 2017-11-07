@@ -18,33 +18,47 @@ public class Character : MonoBehaviour
 
     void Awake()
     {
+        BulletSpawn.shootEnum = ShootStrategy.Normal;
         _totalLife = life;
         EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
         EventManager.SubscribeToEvent(EventType.Hero_death, cMurio);
     }
 
-    void Start()
-    {
-        /*   normal = false;
-           spread = false;
-           sinusoidal = true;
-           print("n " + normal + " s " + spread + " sn " + sinusoidal);*/
-    }
+    void Start() {
+        normal = true;
+        spread = false;
+        sinusoidal = false;
+        print("n " + normal + " s " + spread + " sn " + sinusoidal);
 
-    // Update is called once per frame
+    }
     void Update()
     {
         myPos = transform.position;
         currentDirection = Vector2.zero;
         if (Input.GetKeyDown(KeyCode.B))
         {
-            //   print("n1 " + normal + "s2 " + spread + "sn3 " + sinusoidal);
-            //llega pero hace lo que quiere. Toma sinusoidal porque puede y no se fija en la bullet
-            // Bullet.PerformShoot();
             BulletSpawn.bulletPool.GetObject();
+            BulletSpawn.PerformShoot();
+        }
+        if ( Input.GetKey(KeyCode.T) ) {
+            BulletSpawn.shootEnum = ShootStrategy.Normal;
+            print(BulletSpawn.shootEnum);
+
         }
 
-        if (life <= 0)
+        if ( Input.GetKey(KeyCode.Y) ) {
+            BulletSpawn.shootEnum = ShootStrategy.Spread;
+            print(BulletSpawn.shootEnum);
+
+        }
+
+        if ( Input.GetKey(KeyCode.U) ) {
+            BulletSpawn.shootEnum = ShootStrategy.Sinusoidal;
+            print(BulletSpawn.shootEnum);
+        }
+
+
+        if ( life <= 0)
             EventManager.TriggerEvent(EventType.Hero_death);
     }
     public void Move(Vector2 direction)
@@ -54,7 +68,7 @@ public class Character : MonoBehaviour
     }
     public void Shoot()
     {
-        BulletSpawn.PerformSoot();
+        BulletSpawn.PerformShoot();
     }
 
     private void LifeUpdated(params object[] param)
