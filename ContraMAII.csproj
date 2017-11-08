@@ -83,9 +83,13 @@
     <Compile Include="Assets\Scripts\Bullets\Sinusoidal.cs" />
     <Compile Include="Assets\Scripts\Bullets\Spread.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Cannon.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Enemies\EnemyCos.cs" />
+    <Compile Include="Assets\Scripts\Enemies\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Enemies\Runner.cs" />
     <Compile Include="Assets\Scripts\Enemies\SuperSniper.cs" />
+    <Compile Include="Assets\Scripts\Enemies\WallTurret.cs" />
     <Compile Include="Assets\Scripts\EventMananger\EventManager.cs" />
     <Compile Include="Assets\Scripts\Menu\LanguageSelection.cs" />
     <Compile Include="Assets\Scripts\Pool\Pool.cs" />

@@ -5,67 +5,62 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public bool death;
-    public int speed;
     public float life;
-    public float dir = 1;
+    public int speed;
+    public float speedB;
+    public float timeToShoot;
     public float distance;
+    public bool blockMovement;
+    public GameObject bulletPrefab;
 
     public Rigidbody _rigidbody;
 
     void Start()
     {
-        _rigidbody = this.GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-      //  Attack();
+        timeToShoot += Time.deltaTime;
         distance = Vector2.Distance(Character.myPos, transform.position);
 
-    /*    if (distance > 8)
-            transform.position = Character.myPos;
-        else*/
-            transform.position += Vector3.left * Time.deltaTime * speed * dir;
+        Attack();
+        if (!blockMovement)
+        {
+            if (distance < 2.5)
+                transform.position += Vector3.left * Time.deltaTime * speed;
+        }
+
+
 
         if (life <= 0)
-        {
             Destroy(gameObject);
-        }
     }
 
     #region colisiones
     public void OnCollisionEnter2D(Collision2D c)
     {
         if (c.gameObject.tag == "Hero")
-        {
             life -= 10;
-        }
-    }
-
-    public void OnTriggerEnter2D(Collider2D c)
-    {
-        if (c.gameObject.tag == "Dir")
-        {
-            transform.position = -transform.right;
-            dir = dir * -1;
-        }
-        if (c.gameObject.tag == "Dir2")
-        {
-            transform.position = transform.right;
-            dir = 1;
-        }
     }
     #endregion
 
     #region Attack
-/*    void Attack()
+    void Attack()
     {
-        if (distance < 3)
+        if (distance < 1)
         {
-            transform.position = Character.myPos;
-            Debug.Log("toma come putito");
+            if (timeToShoot >= 1)
+            {
+                timeToShoot = 0;
+                blockMovement = true;
+                GameObject bullet = Instantiate(bulletPrefab);
+                bullet.transform.position = transform.position - new Vector3(0.2f, 0, 0);
+                bullet.GetComponent<Rigidbody2D>().velocity += Vector2.left * speedB;
+            }
         }
-    }*/
+        else blockMovement = false;
+    }
     #endregion
 }
