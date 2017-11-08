@@ -83,7 +83,7 @@ public class Character : MonoBehaviour
         Debug.Log("C t murio el hero");
         EventManager.UnsubscribeToEvent(EventType.Hero_death, cMurio);
         EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
-        //ak lo matas, no se si le vamos a poner animaciones. Me da MUCHISIMA paja programar las aniamaciones
+        //ak lo matas, no se si le vamos a poner animaciones. Me da MUCHISIMA paja programar las aniamaciones xd
     }
 
     public void OnCollisionEnter2D(Collision2D c)

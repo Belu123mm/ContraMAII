@@ -28,6 +28,8 @@ public class Bullet : MonoBehaviour {
             shootInterface = new Spread(); 
             break;
             case ShootStrategy.Sinusoidal:
+            Sinusoidal.center = BulletSpawn.character.position;
+            Sinusoidal._bullet = this;
             shootInterface = new Sinusoidal(); 
             break;
 
@@ -43,7 +45,7 @@ public class Bullet : MonoBehaviour {
 
     public void Initialize() {
         distance = 0;
-        transform.position = BulletSpawn.character.position + new Vector3(0,0.05f,0);
+        this.transform.position = BulletSpawn.character.position + new Vector3(0,0.05f,0);
     }
 
     public static void InitializeBullet( Bullet bullet ) {
