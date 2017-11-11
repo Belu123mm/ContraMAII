@@ -18,8 +18,7 @@ public class TestDeEvents : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.SubscribeToEvent(EventType.Game_win, Win);
-        EventManager.SubscribeToEvent(EventType.Game_lose, Lose);
+
         EventManager.SubscribeToEvent(EventType.Game_score, ScoreUpdated);
     }
     void Update()
@@ -30,23 +29,7 @@ public class TestDeEvents : MonoBehaviour
     #region win/lose
     //Despues ponemos las condiciones, supongo que se van a basar en perder todas las vidas y matar el final boss
 
-    private void Win(params object[] param)
-    {
-        if (_win)
-        {          
-            //SceneManager.LoadScene("Win");
-            Debug.Log("ganast perri");
 
-        }
-    }
-    private void Lose(params object[] param)
-    {
-        if (_lose)
-        {
-            Debug.Log("Looooooser");
-            //SceneManager.LoadScene("GameOver");
-        }
-    }
     #endregion
 
     #region score

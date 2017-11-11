@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public bool death;
     public float life;
     public int speed;
     public float speedB;
@@ -41,7 +40,7 @@ public class Enemy : MonoBehaviour
     #region colisiones
     public void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.gameObject.tag == "Hero")
+        if (c.gameObject.tag == "Hero" || c.gameObject.tag == "spell")
             life -= 10;
     }
     #endregion

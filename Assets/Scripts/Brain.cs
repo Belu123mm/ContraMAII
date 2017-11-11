@@ -25,5 +25,9 @@ public class Brain : MonoBehaviour {
         {
             this.GetComponent<Character>().Shoot();
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GetComponent<Character>().Jump();
+        }
     }
 }

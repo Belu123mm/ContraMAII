@@ -6,6 +6,6 @@ public class Spread : IShoot
 {
     public void Shoot()
     {
-        Debug.Log("Spread");
+
     }
 }
