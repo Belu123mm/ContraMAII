@@ -1,26 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public float life;
+    public int score;
+    public int _totalScore;
+    public Text scoreText;
+
     public int speed;
-    public float speedB;
+    public int life;
+    public int speedB;
     public float timeToShoot;
     public float distance;
     public bool blockMovement;
     public GameObject bulletPrefab;
 
+    public ParticleSystem ps;
+    public float timeEnabled;
+
     public Rigidbody _rigidbody;
 
+    private void Awake()
+    {
+        _totalScore = score;
+        EventManager.SubscribeToEvent(EventType.Game_score, Score);
+        EventManager.SubscribeToEvent(EventType.Game_particles, Particles);
+    }
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        ps = GetComponent<ParticleSystem>();
+        ps.Stop();
     }
 
     void Update()
     {
+        scoreText.text = "Score: " + score;
+
         timeToShoot += Time.deltaTime;
         distance = Vector2.Distance(Character.myPos, transform.position);
 
@@ -31,16 +49,20 @@ public class Enemy : MonoBehaviour
                 transform.position += Vector3.left * Time.deltaTime * speed;
         }
 
-
-
         if (life <= 0)
-            Destroy(gameObject);
+        {
+            EventManager.TriggerEvent(EventType.Game_score);
+            //Nope
+            EventManager.TriggerEvent(EventType.Game_particles);
+            //      WaitForSeconds();
+            //   Destroy(gameObject);
+        }
     }
 
     #region colisiones
     public void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.gameObject.tag == "Hero" || c.gameObject.tag == "spell")
+        if (c.gameObject.tag == "Hero" || c.gameObject.tag == "Spell")
             life -= 10;
     }
     #endregion
@@ -62,4 +84,31 @@ public class Enemy : MonoBehaviour
         else blockMovement = false;
     }
     #endregion
+
+    #region event score
+    void Score(params object[] param)
+    {
+        var currentScore = param[0];
+        Debug.Log("Current Score " + currentScore);
+        score += 10;
+        scoreText.text = "Score: " + score;
+    }
+    #endregion
+
+    #region Particles event
+    void Particles(params object[] param)
+    {
+        timeEnabled += Time.deltaTime;
+        ps.Play();
+        Debug.Log(ps);
+
+        if (timeEnabled > 5)
+            ps.Stop();
+    }
+    #endregion
+
+    IEnumerator WaitForSeconds()
+    {
+        yield return new WaitForSeconds(3);
+    }
 }

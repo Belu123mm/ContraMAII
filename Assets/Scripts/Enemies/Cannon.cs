@@ -41,12 +41,21 @@ public class Cannon : MonoBehaviour
         {
             timeToShoot = 0;
             GameObject bullet = Instantiate(bulletPrefab);
-            bullet.transform.position = transform.position - new Vector3(0.2f, 0, 0);
             var dir = Character.myPos - (Vector2)bullet.transform.position;
-            //  bullet.GetComponent<Rigidbody2D>().velocity += Vector2.left * speedB;
-            //bullet.transform.LookAt(Character.myPos);
+            Vector2 bulletPos = transform.position;
+
+            //Claramente no me salio.
+            // bulletPos = transform.position - new Vector3(0.2f, 0, 0);
+
+            // bulletPos = Character.myPos + new Vector2(2, 2) * speedB;
+
+            // bullet.GetComponent<Rigidbody2D>().velocity += Vector2.left * speedB;
+
             // bullet.transform.position += bullet.transform.forward * speedB * Time.deltaTime;
-         //   bullet.transform.position +=  (new Vector3(Character.myPos.x, Character.myPos.y, 0)) * speedB * Time.deltaTime;
+
+            // bullet.transform.LookAt(Character.myPos);
+
+            // bullet.transform.position += (new Vector3(Character.myPos.x, Character.myPos.y, 0)) * speedB * Time.deltaTime;
         }
 
     }

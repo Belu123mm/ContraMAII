@@ -74,7 +74,7 @@ public class Bullet : MonoBehaviour
 
     public static void Shooting()
     {
-        shootInterface.Shoot();
+    //    shootInterface.Shoot();
     }
 }
 public enum ShootStrategy

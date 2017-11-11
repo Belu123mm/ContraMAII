@@ -1,17 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Boss : MonoBehaviour
+public class Boss : Enemy
 {
-    public float life;
-    public float speedB;
-    public float timeToShoot;
-    public float distance;
-
-    public GameObject bulletPrefab;
-
-    public Rigidbody _rigidbody;
 
     void Start()
     {
@@ -26,8 +19,11 @@ public class Boss : MonoBehaviour
         Attack();
 
         if (life <= 0)
+        {
             Destroy(gameObject);
-        
+            //animacion aca y un yield para que termine de hacer la animacion y despues cambie de escena
+            EventManager.TriggerEvent(EventType.Game_win);
+        }
     }
 
     #region attack
@@ -44,12 +40,19 @@ public class Boss : MonoBehaviour
             }
         }
     }
-    #endregion  
+    #endregion
+
+    #region Condicion de victoria
+    private void Win(params object[] param)
+    {        
+        SceneManager.LoadScene("Win");
+    }
+    #endregion 
 
     #region colisiones
     public void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.gameObject.tag == "Hero" || c.gameObject.tag == "spell")
+        if (c.gameObject.tag == "Hero" || c.gameObject.tag == "Spell")
             life -= 10;
     }
     #endregion

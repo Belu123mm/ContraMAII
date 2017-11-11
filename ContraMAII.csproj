@@ -90,14 +90,12 @@
     <Compile Include="Assets\Scripts\Enemies\EnemyCos.cs" />
     <Compile Include="Assets\Scripts\Enemies\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Enemies\Runner.cs" />
-    <Compile Include="Assets\Scripts\Enemies\SuperSniper.cs" />
     <Compile Include="Assets\Scripts\Enemies\WallTurret.cs" />
     <Compile Include="Assets\Scripts\EventMananger\EventManager.cs" />
     <Compile Include="Assets\Scripts\Menu\LanguageSelection.cs" />
     <Compile Include="Assets\Scripts\Menu\LngObj.cs" />
     <Compile Include="Assets\Scripts\Pool\Pool.cs" />
     <Compile Include="Assets\Scripts\Pool\PoolObject.cs" />
-    <Compile Include="Assets\Scripts\TestDeEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

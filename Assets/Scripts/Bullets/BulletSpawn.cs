@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpawn : MonoBehaviour {
+public class BulletSpawn : MonoBehaviour
+{
     public Bullet bPrefab;
     public static Pool<Bullet> bulletPool;
 
@@ -33,11 +34,8 @@ public class BulletSpawn : MonoBehaviour {
         Bullet.Shooting();     //Cambiar este shoot
     }
 
-    public void Update()
+    public void SetBullet()
     {
-
-    }
-    public void SetBullet() {
 
     }
 }

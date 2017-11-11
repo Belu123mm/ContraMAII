@@ -7,12 +7,10 @@ public class EnemyCos : MonoBehaviour
     public Vector3 initialPos;
     public float speed;
     public float time;
+    public float timeToDead;
     public int rnd;
-    public float timeToAppear;
-    public float coso;
-    public float coso2;
+    public float distance;
 
-    // Use this for initialization
     void Start()
     {
         time = 0;
@@ -27,21 +25,21 @@ public class EnemyCos : MonoBehaviour
     void Update()
     {
         time += Time.deltaTime;
+        timeToDead += Time.deltaTime;
 
-        var k = (Mathf.Cos((coso * time))) * coso2;
+        var k = (Mathf.Cos((5 * time))) * 0.3f;
 
         transform.position = new Vector3(initialPos.x + speed * time, initialPos.y + k, 0);
+
+        if (timeToDead > 10)
+            Destroy(gameObject);
     }
 
+    #region colisiones
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.gameObject.tag == "Spell")
-        {
+        if (c.gameObject.tag == "Spell" || c.gameObject.tag == "Hero")
             Destroy(this.gameObject);
-        }
-        if (c.gameObject.tag == "Hero")
-        {
-            Destroy(this.gameObject);
-        }
     }
+    #endregion
 }

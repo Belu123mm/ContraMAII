@@ -16,19 +16,26 @@ public class Character : MonoBehaviour
     public float jumpForce;
     public bool _win;
     public bool _lose;
+    public bool deadCharacter = false;
+
+    #region bools que sacar
     public static bool shoot;
     public static bool normal;
     public static bool spread;
     public static bool sinusoidal;
+    #endregion
 
     void Awake()
     {
-        _totalLife = life;
         BulletSpawn.shootEnum = ShootStrategy.Normal;
-        EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
-        EventManager.SubscribeToEvent(EventType.Hero_death, cMurio);
-        EventManager.SubscribeToEvent(EventType.Game_win, Win);
-        EventManager.SubscribeToEvent(EventType.Game_lose, Lose);
+
+        _totalLife = life; //Le asigno la laif
+
+        #region 
+        EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated); //Evento de cambio de vida.     /   Funciona
+        EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated); //Evento de muerte            /   Funciona                                                                          
+        EventManager.SubscribeToEvent(EventType.Game_lose, Lose); //Evento de lose                       /   Funciona   
+        #endregion
     }
 
     void Start()
@@ -70,12 +77,11 @@ public class Character : MonoBehaviour
         }
         #endregion
 
-
         if (life <= 0)
-            EventManager.TriggerEvent(EventType.Hero_death);
+            EventManager.TriggerEvent(EventType.Hero_death); //Disparo el evento de que se murio
 
         if (vidas == 0)
-            _lose = true;
+            EventManager.TriggerEvent(EventType.Game_lose);
     }
 
     #region move
@@ -105,37 +111,32 @@ public class Character : MonoBehaviour
     {
         var currentLife = (float)param[0];
         Debug.Log("Actual Life " + currentLife);
-        if (life <= 0 && vidas > 0)
+        if (deadCharacter && vidas < 0)
+        {
             life = 100;
+            Debug.Log(vidas);
+        }
 
     }
-    private void cMurio(params object[] param)
+    private void HeroDefeated(params object[] parameters)
     {
-        Debug.Log("C t murio el hero");
+        Debug.Log("HERO DEFEATED");
+        deadCharacter = true;
         vidas--;
-        EventManager.UnsubscribeToEvent(EventType.Hero_death, cMurio);
+        //Me desubscribo de todos los eventos 
+        EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
         EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
     }
     #endregion
 
-    #region Condicion de victoria y derrota
-    private void Win(params object[] param)
-    {
-        if (_win)
-        {
-            //SceneManager.LoadScene("Win");
-            //aca poner condicion de victoria , cuando se mate al boss paja ahora. 
-            Debug.Log("ganast perri");
+    #region Condicion de derrota
 
-        }
-    }
     private void Lose(params object[] param)
     {
-        if (_lose)
-        {
-            Debug.Log("Looooooser");
-            SceneManager.LoadScene("GameOver");
-        }
+        SceneManager.LoadScene("GameOver");
+        EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
+        EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
+        EventManager.UnsubscribeToEvent(EventType.Game_lose, Lose);
     }
     #endregion
 
