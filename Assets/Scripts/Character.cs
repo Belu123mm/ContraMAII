@@ -11,7 +11,8 @@ public class Character : MonoBehaviour
 
 
     public static Vector2 myPos;
-    public Vector2 currentDirection;
+    public Vector2 movDirection;
+    public static Vector2 viewDirection;
     public float speed;
     public float jumpForce;
     public bool _win;
@@ -48,7 +49,8 @@ public class Character : MonoBehaviour
     void Update()
     {
         myPos = transform.position;
-        currentDirection = Vector2.zero;
+        //Matenme
+        movDirection = Vector2.zero;
 
         #region inputs que sacar
         if (Input.GetKeyDown(KeyCode.B))
@@ -87,8 +89,9 @@ public class Character : MonoBehaviour
     #region move
     public void Move(Vector2 direction)
     {
-        currentDirection += direction;
-        GetComponent<Rigidbody2D>().velocity = currentDirection * speed;
+        movDirection += direction;
+        GetComponent<Rigidbody2D>().velocity = movDirection * speed;
+        print(movDirection);
     }
     #endregion
 

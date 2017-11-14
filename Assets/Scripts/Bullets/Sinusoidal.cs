@@ -19,6 +19,6 @@ public class Sinusoidal : IShoot
         magn = 0.09f;
         timer += Time.deltaTime;
         _bullet.transform.position = new Vector3(_bullet.transform.position.x, Mathf.Sin(Time.time * freq) * magn * Mathf.Cos(Time.deltaTime * freq) + 2.4f, 0);
-        _bullet.transform.position += Vector3.right * Time.deltaTime;//Ver el tema del cos y el sen para esto owo
+        _bullet.transform.position += _bullet.bulletOr * Time.deltaTime;//Ver el tema del cos y el sen para esto owo
     }
 }

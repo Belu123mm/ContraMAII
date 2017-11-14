@@ -6,10 +6,15 @@ public class Brain : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetAxis("Horizontal") > 0)
-            this.GetComponent<Character>().Move(Vector2.right * Input.GetAxis("Horizontal"));
-        else if (Input.GetAxis("Horizontal") < 0)
+        if (Input.GetAxis("Horizontal") > 0 ) {
+        Character.viewDirection = Vector2.right;
+        this.GetComponent<Character>().Move(Vector2.right * Input.GetAxis("Horizontal"));
+
+        }
+        else if (Input.GetAxis("Horizontal") < 0 ) {
+            Character.viewDirection = Vector2.left;
             this.GetComponent<Character>().Move(Vector2.left * -Input.GetAxis("Horizontal"));
+        }
 
         //Eje vertical used to look, not move. Lo comento porque toque sin querer y volé. 
         /*   if (Input.GetAxis("Vertical") > 0)

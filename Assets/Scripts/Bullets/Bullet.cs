@@ -12,6 +12,11 @@ public class Bullet : MonoBehaviour
     public static Bullet bullet;
     public static IShoot shootInterface;
     public static ShootStrategy shootEnum;
+    public Vector3 bulletOr;
+    public float x;
+    public float y;
+    public float z;
+    public Vector3 rndOr;
 
     void Update()
     {
@@ -28,6 +33,7 @@ public class Bullet : MonoBehaviour
                 shootInterface = new OneShoot();
                 break;
             case ShootStrategy.Spread:
+            Spread._bullet = this;
                 shootInterface = new Spread();
                 break;
             case ShootStrategy.Sinusoidal:
@@ -46,8 +52,14 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    public void Initialize()
+    public void Initialize()        //Start de la bala. Luego las funciones son el update
     {
+        bulletOr = Character.viewDirection;
+        y = Random.Range( -3f, 3f)/3;
+        x = Random.Range(Mathf.Abs(y), 3f);
+        z = 0;
+        rndOr = new Vector3(x, y, z);
+        print(rndOr);
         distance = 0;
         this.transform.position = BulletSpawn.character.position + new Vector3(0, 0.05f, 0);
     }
