@@ -9,7 +9,6 @@ public class Bullet : MonoBehaviour
     public float distance;
     public float maxDistance;
     public bool cMurio;
-    public static Bullet bullet;
     public static IShoot shootInterface;
     public static ShootStrategy shootEnum;
     public Vector3 bulletOr;
@@ -20,7 +19,6 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-
         shootEnum = BulletSpawn.shootEnum;
         if (shootInterface != null)
         {
@@ -40,22 +38,19 @@ public class Bullet : MonoBehaviour
                 Sinusoidal._bullet = this;
                 shootInterface = new Sinusoidal();
                 break;
-
                 //Ver tema este xd 
         }
         if (cMurio || distance > maxDistance)
         {
             BulletSpawn.Instance.ReturnBulletToPool(this);
             // Debug.Log("Alo");
-
-
         }
     }
 
     public void Initialize()        //Start de la bala. Luego las funciones son el update
     {
         bulletOr = Character.viewDirection;
-        y = Random.Range( -3f, 3f)/3;
+        y = Random.Range(-0.2f, 0.4f);
         x = Random.Range(Mathf.Abs(y), 3f);
         z = 0;
         rndOr = new Vector3(x, y, z);
@@ -80,9 +75,7 @@ public class Bullet : MonoBehaviour
         //  if ( c.gameObject.tag == "Enemy" ) {
         //    cMurio = true;
         BulletSpawn.Instance.ReturnBulletToPool(this);
-
     }
-
 
     public static void Shooting()
     {

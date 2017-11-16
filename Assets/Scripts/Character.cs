@@ -8,8 +8,6 @@ public class Character : MonoBehaviour
     public float life;
     private float _totalLife;
     public int vidas;
-
-
     public static Vector2 myPos;
     public Vector2 movDirection;
     public static Vector2 viewDirection;
@@ -32,7 +30,7 @@ public class Character : MonoBehaviour
 
         _totalLife = life; //Le asigno la laif
 
-        #region 
+        #region Events
         EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated); //Evento de cambio de vida.     /   Funciona
         EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated); //Evento de muerte            /   Funciona                                                                          
         EventManager.SubscribeToEvent(EventType.Game_lose, Lose); //Evento de lose                       /   Funciona   
@@ -91,7 +89,6 @@ public class Character : MonoBehaviour
     {
         movDirection += direction;
         GetComponent<Rigidbody2D>().velocity = movDirection * speed;
-        print(movDirection);
     }
     #endregion
 
@@ -119,7 +116,6 @@ public class Character : MonoBehaviour
             life = 100;
             Debug.Log(vidas);
         }
-
     }
     private void HeroDefeated(params object[] parameters)
     {
@@ -149,8 +145,6 @@ public class Character : MonoBehaviour
         if (c.gameObject.tag == "Enemy")
         {
             life -= 10;
-
-
             EventManager.TriggerEvent(EventType.Hero_life, new object[] { life, _totalLife });
         }
     }

@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEditor;
 
-public class LanguageSelection : MonoBehaviour {
+public class LanguageSelection : MonoBehaviour
+{
     public Scene actualScene;
     public static Dictionary<string, string> spanish = new Dictionary<string, string>();
     public static Dictionary<string, string> english = new Dictionary<string, string>();
@@ -20,7 +21,8 @@ public class LanguageSelection : MonoBehaviour {
     public Button languageBt;
 
     #region
-    public void Awake() {
+    public void Awake()
+    {
         actualScene = SceneManager.GetActiveScene();
         //Declaro los diccionarios para el tema del idioma
         english.Add("score", "Score");
@@ -43,69 +45,83 @@ public class LanguageSelection : MonoBehaviour {
         spanish.Add("menu", "Menu");
     }
     #endregion
-    public void Start() {
+
+    public void Start()
+    {
         lngObject = FindObjectOfType<LngObj>();
         SearchButtons();
     }
 
-    public void Spanish() {
+    public void Spanish()
+    {
         lngObject.actualLanguage.Clear();
         lngObject.actualLanguage = spanish;
         SearchButtons();
-
     }
-    public void English() {
+    public void English()
+    {
         lngObject.actualLanguage.Clear();
         lngObject.actualLanguage = english;
         SearchButtons();
     }
-    public void SetLanguage() {
-        if ( actualScene.name == "Start" ) {
-            playBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage [ "startText" ];
-            languageBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage [ "language" ];
-            creditsBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage [ "credits" ];
+    public void SetLanguage()
+    {
+        if (actualScene.name == "Start")
+        {
+            playBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage["startText"];
+            languageBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage["language"];
+            creditsBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage["credits"];
         }
-        if ( actualScene.name == "Idioma" ) {
-            _menuText.GetComponent<Text>().text = lngObject.actualLanguage [ " menu" ];
-            spanishBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage [ "spanish" ];
-            englishBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage [ "english" ];
+        if (actualScene.name == "Idioma")
+        {
+            _menuText.GetComponent<Text>().text = lngObject.actualLanguage[" menu"];
+            spanishBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage["spanish"];
+            englishBt.GetComponentInChildren<Text>().text = lngObject.actualLanguage["english"];
         }
-        if ( actualScene.name == "Creditos" )
-            _menuText.GetComponent<Text>().text = lngObject.actualLanguage [ " menu" ];
+        if (actualScene.name == "Creditos")
+            _menuText.GetComponent<Text>().text = lngObject.actualLanguage[" menu"];
     }
-    public void SearchButtons() {
-        if ( actualScene.name == "Start" ) {
+    public void SearchButtons()
+    {
+        if (actualScene.name == "Start")
+        {
             print("executed");
             playBt = GameObject.Find("Jugar").GetComponent<Button>();
             languageBt = GameObject.Find("Idioma").GetComponent<Button>();
             creditsBt = GameObject.Find("Credits").GetComponent<Button>();
         }
-        if ( actualScene.name == "Idioma" ) {
+        if (actualScene.name == "Idioma")
+        {
             print("executed");
             _menuText = GameObject.Find("Menu").GetComponent<Button>();
             spanishBt = GameObject.Find("Español").GetComponent<Button>();
             englishBt = GameObject.Find("English").GetComponent<Button>();
         }
-        if ( actualScene.name == "Creditos" ) {
+        if (actualScene.name == "Creditos")
+        {
             print("executed");
             _menuText = GameObject.Find("Menu").GetComponent<Button>();
         }
     }
-    public void GoToIdioma() {
+    public void GoToIdioma()
+    {
         SceneManager.LoadScene("Idioma");
         actualScene = SceneManager.GetActiveScene();
     }
-    public void GoToGame() {
+    public void GoToGame()
+    {
         SceneManager.LoadScene("main");
         actualScene = SceneManager.GetActiveScene();
 
     }
-    public void GoToCredits() {
+    public void GoToCredits()
+    {
         SceneManager.LoadScene("Creditos");
         actualScene = SceneManager.GetActiveScene();
 
     }
-    public void GoToMenu() {
+    public void GoToMenu()
+    {
         SceneManager.LoadScene("Start");
         actualScene = SceneManager.GetActiveScene();
 

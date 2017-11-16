@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LngObj : MonoBehaviour {
+public class LngObj : MonoBehaviour
+{
     public Dictionary<string, string> actualLanguage;
     public LanguageSelection lngSelect;
-    private void Awake() {
+    private void Awake()
+    {
         DontDestroyOnLoad(this);
-        lngSelect = FindObjectOfType<LanguageSelection>();   
+        actualLanguage = new Dictionary<string, string>();
+        lngSelect = FindObjectOfType<LanguageSelection>();
         lngSelect.Spanish();
     }
-    void Start() {
+
+    private void Update()
+    {
+        lngSelect = FindObjectOfType<LanguageSelection>();
     }
 }
