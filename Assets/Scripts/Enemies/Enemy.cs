@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+
+
     public int score;
     public int _totalScore;
     public Text scoreText;
@@ -54,8 +56,9 @@ public class Enemy : MonoBehaviour
             EventManager.TriggerEvent(EventType.Game_score);
             //Nope
             EventManager.TriggerEvent(EventType.Game_particles);
+            //esto para que espere algunos segs antes de destruirse asi se ven las particulas
             //      WaitForSeconds();
-            //   Destroy(gameObject);
+            EnemySpawn.instance.ReturnEnemyToPool(this);
         }
     }
 
@@ -106,6 +109,23 @@ public class Enemy : MonoBehaviour
             ps.Stop();
     }
     #endregion
+
+    public void Initialize()
+    {
+        transform.position = Character.myPos + new Vector2(5, 0);
+        distance = 0;
+    }
+
+    public static void InitializeEnemy(Enemy e)
+    {
+        e.gameObject.SetActive(true);
+        e.Initialize();
+    }
+
+    public static void DisposeEnemy(Enemy e)
+    {
+        e.gameObject.SetActive(false);
+    }
 
     IEnumerator WaitForSeconds()
     {

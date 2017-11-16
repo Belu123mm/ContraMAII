@@ -7,7 +7,7 @@ public class Character : MonoBehaviour
 {
     public float life;
     private float _totalLife;
-    public int vidas;
+    public int amountOfLifes;
     public static Vector2 myPos;
     public Vector2 movDirection;
     public static Vector2 viewDirection;
@@ -17,12 +17,8 @@ public class Character : MonoBehaviour
     public bool _lose;
     public bool deadCharacter = false;
 
-    #region bools que sacar
-    public static bool shoot;
-    public static bool normal;
     public static bool spread;
     public static bool sinusoidal;
-    #endregion
 
     void Awake()
     {
@@ -39,9 +35,7 @@ public class Character : MonoBehaviour
 
     void Start()
     {
-        normal = true;
-        spread = false;
-        sinusoidal = false;
+
     }
 
     void Update()
@@ -50,7 +44,7 @@ public class Character : MonoBehaviour
         //Matenme
         movDirection = Vector2.zero;
 
-        #region inputs que sacar
+        //esto ponerlo en el brain
         if (Input.GetKeyDown(KeyCode.B))
         {
             BulletSpawn.bulletPool.GetObject();
@@ -60,27 +54,24 @@ public class Character : MonoBehaviour
         {
             BulletSpawn.shootEnum = ShootStrategy.Normal;
             print(BulletSpawn.shootEnum);
-
         }
 
-        if (Input.GetKey(KeyCode.Y))
+        if (spread)
         {
             BulletSpawn.shootEnum = ShootStrategy.Spread;
             print(BulletSpawn.shootEnum);
-
         }
-
-        if (Input.GetKey(KeyCode.U))
+        if (sinusoidal)
         {
             BulletSpawn.shootEnum = ShootStrategy.Sinusoidal;
             print(BulletSpawn.shootEnum);
         }
-        #endregion
+
 
         if (life <= 0)
             EventManager.TriggerEvent(EventType.Hero_death); //Disparo el evento de que se murio
 
-        if (vidas == 0)
+        if (amountOfLifes == 0)
             EventManager.TriggerEvent(EventType.Game_lose);
     }
 
@@ -111,17 +102,17 @@ public class Character : MonoBehaviour
     {
         var currentLife = (float)param[0];
         Debug.Log("Actual Life " + currentLife);
-        if (deadCharacter && vidas < 0)
+        if (deadCharacter && amountOfLifes < 0)
         {
             life = 100;
-            Debug.Log(vidas);
+            Debug.Log(amountOfLifes);
         }
     }
     private void HeroDefeated(params object[] parameters)
     {
         Debug.Log("HERO DEFEATED");
         deadCharacter = true;
-        vidas--;
+        amountOfLifes--;
         //Me desubscribo de todos los eventos 
         EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
         EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
@@ -147,6 +138,11 @@ public class Character : MonoBehaviour
             life -= 10;
             EventManager.TriggerEvent(EventType.Hero_life, new object[] { life, _totalLife });
         }
+        if (c.gameObject.tag == "spread")
+            spread = true;
+
+        if (c.gameObject.tag == "Sinusoidal")
+            sinusoidal = true;
     }
     #endregion
 }

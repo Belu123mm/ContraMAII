@@ -4,16 +4,39 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public GameObject enemyCos;
-    public float timeToAppear;
+    public Enemy enemyPrefab;
+    private Pool<Enemy> _enemyPool;
+
+    private static EnemySpawn _instance;
+    public static EnemySpawn instance { get { return _instance; } }
+
+    public float distance;
+
+    void Awake()
+    {
+        _instance = this;
+        _enemyPool = new Pool<Enemy>(15, EnemyFactory, Enemy.InitializeEnemy, Enemy.DisposeEnemy, true);
+    }
 
     void Update()
     {
-        timeToAppear += Time.deltaTime;
-        if (timeToAppear >= 3)
+        distance = Vector2.Distance(Character.myPos, transform.position);
+
+      /*  if (distance <= 3)
         {
-            GameObject go = Instantiate(enemyCos);
-            timeToAppear = 0;
-        }
+            _enemyPool.GetObject();
+
+            distance = 0;
+        }*/
+    }
+
+    private Enemy EnemyFactory()
+    {
+        return Instantiate<Enemy>(enemyPrefab);
+    }
+
+    public void ReturnEnemyToPool(Enemy enemy)
+    {
+        _enemyPool.Disable(enemy);
     }
 }

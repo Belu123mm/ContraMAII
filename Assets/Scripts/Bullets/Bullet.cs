@@ -43,7 +43,6 @@ public class Bullet : MonoBehaviour
         if (cMurio || distance > maxDistance)
         {
             BulletSpawn.Instance.ReturnBulletToPool(this);
-            // Debug.Log("Alo");
         }
     }
 

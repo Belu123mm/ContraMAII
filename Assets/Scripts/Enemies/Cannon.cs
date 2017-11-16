@@ -10,8 +10,8 @@ public class Cannon : MonoBehaviour
     public float distance;
     public float timeToShoot;
     public float speedB;
-    public Vector2 dir;
-    public Vector2 pos;
+   // public Vector2 dir;
+  //  public Vector2 pos;
 
     void Start()
     {
@@ -33,7 +33,6 @@ public class Cannon : MonoBehaviour
         }
     }
 
-    #region attack
     void Attack()
     {
         timeToShoot += Time.deltaTime;
@@ -59,16 +58,11 @@ public class Cannon : MonoBehaviour
         }
 
     }
-    #endregion
 
-    #region colisiones
     private void OnCollisionEnter2D(Collision2D c)
     {
         if (c.gameObject.tag == "Spell")
-        {
             Destroy(gameObject);
-        }
     }
-    #endregion
 
 }

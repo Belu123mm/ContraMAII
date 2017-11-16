@@ -33,9 +33,4 @@ public class BulletSpawn : MonoBehaviour
     {
         Bullet.Shooting();     //Cambiar este shoot
     }
-
-    public void SetBullet()
-    {
-
-    }
 }
