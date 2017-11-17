@@ -10,19 +10,18 @@ public class Character : MonoBehaviour
     public int amountOfLifes;
     public static Vector2 myPos;
     public Vector2 movDirection;
-    public static Vector2 viewDirection;
+    public static Vector2 characterViewDirection;
     public float speed;
     public float jumpForce;
     public bool _win;
     public bool _lose;
     public bool deadCharacter = false;
-
-    public static bool spread;
-    public static bool sinusoidal;
+    public BulletSpawn bulletSpawn;
+    public bool spreadPw;
+    public bool sinusoidalPW;
 
     void Awake()
     {
-        BulletSpawn.shootEnum = ShootStrategy.Normal;
 
         _totalLife = life; //Le asigno la laif
 
@@ -52,22 +51,19 @@ public class Character : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.T))
         {
-            BulletSpawn.shootEnum = ShootStrategy.Normal;
-            print(BulletSpawn.shootEnum);
+            bulletSpawn.bulletType = "normal";
+            print(bulletSpawn.bulletType);
         }
-
-        if (spread)
+        if (Input.GetKey(KeyCode.Y))
         {
-            BulletSpawn.shootEnum = ShootStrategy.Spread;
-            print(BulletSpawn.shootEnum);
+            bulletSpawn.bulletType = "spread";
+            print(bulletSpawn.bulletType);
         }
-        if (sinusoidal)
+        if (Input.GetKey(KeyCode.U))
         {
-            BulletSpawn.shootEnum = ShootStrategy.Sinusoidal;
-            print(BulletSpawn.shootEnum);
+            bulletSpawn.bulletType = "sinusoidal";
+            print(bulletSpawn.bulletType);
         }
-
-
         if (life <= 0)
             EventManager.TriggerEvent(EventType.Hero_death); //Disparo el evento de que se murio
 
@@ -139,10 +135,10 @@ public class Character : MonoBehaviour
             EventManager.TriggerEvent(EventType.Hero_life, new object[] { life, _totalLife });
         }
         if (c.gameObject.tag == "spread")
-            spread = true;
+            spreadPw = true;
 
         if (c.gameObject.tag == "Sinusoidal")
-            sinusoidal = true;
+            sinusoidalPW = true;
     }
     #endregion
 }

@@ -9,37 +9,25 @@ public class Bullet : MonoBehaviour
     public float distance;
     public float maxDistance;
     public bool cMurio;
-    public static IShoot shootInterface;
-    public static ShootStrategy shootEnum;
+    public static IShoot shootBehavoiur;
     public Vector3 bulletOr;
     public float x;
     public float y;
     public float z;
     public Vector3 rndOr;
+    public BulletSpawn bSpw;
+    public float timer;
+    private void Start() {
 
+    }
     void Update()
     {
-        shootEnum = BulletSpawn.shootEnum;
-        if (shootInterface != null)
+        timer = bSpw.bulletTimer;
+        if (shootBehavoiur != null)
         {
-            shootInterface.Shoot();
+            shootBehavoiur.Shoot();
         }
-        switch (shootEnum)
-        {
-            case ShootStrategy.Normal:
-                OneShoot._bullet = this;
-                shootInterface = new OneShoot();
-                break;
-            case ShootStrategy.Spread:
-            Spread._bullet = this;
-                shootInterface = new Spread();
-                break;
-            case ShootStrategy.Sinusoidal:
-                Sinusoidal._bullet = this;
-                shootInterface = new Sinusoidal();
-                break;
-                //Ver tema este xd 
-        }
+
         if (cMurio || distance > maxDistance)
         {
             BulletSpawn.Instance.ReturnBulletToPool(this);
@@ -48,7 +36,26 @@ public class Bullet : MonoBehaviour
 
     public void Initialize()        //Start de la bala. Luego las funciones son el update
     {
-        bulletOr = Character.viewDirection;
+        bSpw= FindObjectOfType<Character>().GetComponentInChildren<BulletSpawn>();
+        if (bSpw.bulletType == "normal")
+        {
+            OneShoot._bullet = this;
+            shootBehavoiur = new OneShoot();
+
+        }
+        if (bSpw.bulletType == "spread")
+        {
+            Spread._bullet = this;
+            shootBehavoiur = new Spread();
+        }
+        if (bSpw.bulletType == "sinusoidal")
+        {
+            Sinusoidal._bullet = this;
+            shootBehavoiur = new Sinusoidal();
+        }
+
+
+        bulletOr = Character.characterViewDirection;
         y = Random.Range(-0.2f, 0.4f);
         x = Random.Range(Mathf.Abs(y), 3f);
         z = 0;
@@ -81,12 +88,3 @@ public class Bullet : MonoBehaviour
     //    shootInterface.Shoot();
     }
 }
-public enum ShootStrategy
-{
-    Normal,
-    Spread,
-    Sinusoidal
-}
-
-
-

@@ -11,6 +11,8 @@ public class EnemySpawn : MonoBehaviour
     public static EnemySpawn instance { get { return _instance; } }
 
     public float distance;
+    public int ammountOfEnemies;
+    public bool isActive;
 
     void Awake()
     {
@@ -22,12 +24,12 @@ public class EnemySpawn : MonoBehaviour
     {
         distance = Vector2.Distance(Character.myPos, transform.position);
 
-      /*  if (distance <= 3)
+        if (isActive)
         {
             _enemyPool.GetObject();
 
             distance = 0;
-        }*/
+        }
     }
 
     private Enemy EnemyFactory()
@@ -38,5 +40,13 @@ public class EnemySpawn : MonoBehaviour
     public void ReturnEnemyToPool(Enemy enemy)
     {
         _enemyPool.Disable(enemy);
+    }
+    public void OnTriggerEnter2D(Collider2D c)
+    {
+        if (c.gameObject.tag == "Hero")
+        {
+            isActive = true;
+            Destroy(this);
+        }
     }
 }

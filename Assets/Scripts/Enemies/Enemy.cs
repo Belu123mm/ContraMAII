@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-
-
     public int score;
     public int _totalScore;
     public Text scoreText;

@@ -9,15 +9,20 @@ public class BulletSpawn : MonoBehaviour
 
     private static BulletSpawn _instance;
     public static BulletSpawn Instance { get { return _instance; } }
-    public static Transform character;
-    public static IShoot shootBehaviour;
-    public static ShootStrategy shootEnum;
+    public static Transform character;      //Ver este static
+    public string bulletType;
+    public float bulletTimer;
 
     void Awake()
     {
         _instance = this;
         bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
         character = GetComponentInParent<Transform>();
+    }
+    private void Update()
+    {
+        bulletTimer += Time.deltaTime;
+
     }
 
     private Bullet BulletFactory()

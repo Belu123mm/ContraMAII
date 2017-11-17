@@ -7,12 +7,12 @@ public class Brain : MonoBehaviour
     void Update()
     {
         if (Input.GetAxis("Horizontal") > 0 ) {
-        Character.viewDirection = Vector2.right;
+        Character.characterViewDirection = Vector2.right;
         this.GetComponent<Character>().Move(Vector2.right * Input.GetAxis("Horizontal"));
 
         }
         else if (Input.GetAxis("Horizontal") < 0 ) {
-            Character.viewDirection = Vector2.left;
+            Character.characterViewDirection = Vector2.left;
             this.GetComponent<Character>().Move(Vector2.left * -Input.GetAxis("Horizontal"));
         }
 
