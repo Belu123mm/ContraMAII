@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewLanguage", menuName = "Language", order = 1)]
 public class LanguageObjects : ScriptableObject
 {
-    public string language;
+    public string Language;
     public string score;
     public string life;
     public string startText;
@@ -14,5 +14,6 @@ public class LanguageObjects : ScriptableObject
     public string spanish;
     public string credits;
     public string menu;
+    public string languageButton;
 
 }
