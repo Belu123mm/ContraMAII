@@ -12,17 +12,22 @@ public class Character : MonoBehaviour
     public Vector2 movDirection;
     public static Vector2 characterViewDirection;
     public float speed;
-    public float jumpForce;
     public bool _win;
     public bool _lose;
     public bool deadCharacter = false;
     public BulletSpawn bulletSpawn;
     public bool spreadPw;
     public bool sinusoidalPW;
+    public List<Collider2D> levelColl = new List<Collider2D>();
+    public Rigidbody2D rb;
 
     void Awake()
     {
-
+        rb = this.GetComponent<Rigidbody2D>();
+        var coll = GameObject.Find("Colliders").GetComponentsInChildren<Collider2D>();
+        foreach ( var item in coll ) {
+            levelColl.Add(item);
+        }
         _totalLife = life; //Le asigno la laif
 
         #region Events
@@ -40,7 +45,6 @@ public class Character : MonoBehaviour
     void Update()
     {
         myPos = transform.position;
-        //Matenme
         movDirection = Vector2.zero;
 
         //esto ponerlo en el brain
@@ -69,13 +73,19 @@ public class Character : MonoBehaviour
 
         if (amountOfLifes == 0)
             EventManager.TriggerEvent(EventType.Game_lose);
+        
+    }
+    private void FixedUpdate() {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
+        if ( hit.collider != null )
+            Debug.DrawLine(this.transform.position, hit.point);
     }
 
     #region move
     public void Move(Vector2 direction)
     {
         movDirection += direction;
-        GetComponent<Rigidbody2D>().velocity = movDirection * speed;
+        rb.velocity = movDirection * speed;
     }
     #endregion
 
@@ -86,12 +96,10 @@ public class Character : MonoBehaviour
     }
     #endregion
 
-    #region Jump
-    public void Jump()
-    {
-        GetComponent<Rigidbody2D>().AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+    //Salto
+    public void Jump(float jumpForce) {
+        rb.AddForce(Vector2.up * jumpForce);
     }
-    #endregion
 
     #region evento de vida y muerte
     private void LifeUpdated(params object[] param)

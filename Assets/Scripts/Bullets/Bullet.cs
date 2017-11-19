@@ -17,11 +17,16 @@ public class Bullet : MonoBehaviour
     public Vector3 rndOr;
     public BulletSpawn bSpw;
     public float timer;
+    public float sen;
+    public float cos;
     private void Start() {
 
     }
     void Update()
     {
+        sen = Mathf.Sin(bSpw.bulletTimer * 20);
+        cos = Mathf.Cos(bSpw.bulletTimer * 20);
+
         timer = bSpw.bulletTimer;
         if (shootBehavoiur != null)
         {

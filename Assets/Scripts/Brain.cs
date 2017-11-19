@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class Brain : MonoBehaviour
 {
+    public bool spammingSpace, ground;
+    public float jumpForce;
+    private Character _ch;
+    private Animator charAnim;
+    private void Start() {
+        _ch = GetComponent<Character>();
+        charAnim = GetComponent<Animator>();
+
+    }
     void Update()
     {
         if (Input.GetAxis("Horizontal") > 0 ) {
         Character.characterViewDirection = Vector2.right;
-        this.GetComponent<Character>().Move(Vector2.right * Input.GetAxis("Horizontal"));
-
+        _ch.Move(Vector2.right * Input.GetAxis("Horizontal"));
+            print("hello");
         }
         else if (Input.GetAxis("Horizontal") < 0 ) {
             Character.characterViewDirection = Vector2.left;
-            this.GetComponent<Character>().Move(Vector2.left * -Input.GetAxis("Horizontal"));
+            _ch.Move(Vector2.left * -Input.GetAxis("Horizontal"));
         }
 
         //Eje vertical used to look, not move. Lo comento porque toque sin querer y volé. 
@@ -26,9 +35,37 @@ public class Brain : MonoBehaviour
         {
             this.GetComponent<Character>().Shoot();
         }
-        if (Input.GetKeyDown(KeyCode.F))
+
+      /*  if ( _ch.rb.velocity.y < -0.1 && ground ) {
+            ground = false;
+        } else ground = true;
+        */
+        
+        if ( Input.GetButton("Jump") && !spammingSpace )        //Cambie esto, mirate el tema de los bools
         {
-            GetComponent<Character>().Jump();
+            float _tempJumpForce = jumpForce;
+                _ch.Jump(_tempJumpForce);
+            spammingSpace = true;
+            charAnim.SetBool("jump", true);
+
+            if ( spammingSpace ) {
+                _tempJumpForce -= 1;
+            }
+            if ( ground ) {
+                ground = false;
+            }
         }
     }
+    void OnCollisionEnter2D( Collision2D c ) {
+        if ( c.gameObject.layer == LayerMask.NameToLayer("level") ) {
+            // Delay to this ->
+            charAnim.SetBool("jump", false);
+            _ch.rb.velocity = Vector3.zero;
+            _ch.rb.angularVelocity = 0f;
+            ground = true;
+            spammingSpace = false;
+
+        }
+    }
+
 }
