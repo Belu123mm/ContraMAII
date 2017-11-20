@@ -7,11 +7,16 @@ public class Cannon : MonoBehaviour
     public Renderer rend;
     public Collider2D c;
     public GameObject bulletPrefab;
+
     public float distance;
     public float timeToShoot;
     public float speedB;
-   // public Vector2 dir;
-  //  public Vector2 pos;
+
+
+
+    public Transform hero;
+    public Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
+
 
     void Start()
     {
@@ -19,6 +24,13 @@ public class Cannon : MonoBehaviour
         c = GetComponent<BoxCollider2D>();
         rend.enabled = false;
         c.enabled = false;
+
+        if (hero == null)
+        {
+            GameObject go = GameObject.Find("ContraSheet1_4");
+            if (go != null)
+                hero = go.transform;
+        }
     }
 
     void Update()
@@ -29,6 +41,9 @@ public class Cannon : MonoBehaviour
         {
             rend.enabled = true;
             c.enabled = true;
+            Vector3 dir = (hero.position - transform.position).normalized;
+            float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180;
+            transform.rotation = Quaternion.Euler(0, 0, zAngle);
             Attack();
         }
     }
@@ -36,27 +51,20 @@ public class Cannon : MonoBehaviour
     void Attack()
     {
         timeToShoot += Time.deltaTime;
-        if (timeToShoot >= 1)
+        if (timeToShoot >= 2)
         {
             timeToShoot = 0;
+            Vector3 offset = transform.rotation * bulletOffset;
             GameObject bullet = Instantiate(bulletPrefab);
-            var dir = Character.myPos - (Vector2)bullet.transform.position;
-            Vector2 bulletPos = transform.position;
-
-            //Claramente no me salio.
-            // bulletPos = transform.position - new Vector3(0.2f, 0, 0);
-
-            // bulletPos = Character.myPos + new Vector2(2, 2) * speedB;
-
-            // bullet.GetComponent<Rigidbody2D>().velocity += Vector2.left * speedB;
-
-            // bullet.transform.position += bullet.transform.forward * speedB * Time.deltaTime;
-
-            // bullet.transform.LookAt(Character.myPos);
-
-            // bullet.transform.position += (new Vector3(Character.myPos.x, Character.myPos.y, 0)) * speedB * Time.deltaTime;
+            Vector2 essstacosa = transform.forward;
+            //Lo hice en plan de buscar el cañon por separado despues para simular la animacion, blabla. Igual no se mueve :c
+            bullet.transform.position = transform.position;
+            //  bullet.transform.position += transform.forward * Time.deltaTime * speedB;
+            //  bullet.GetComponent<Rigidbody2D>().velocity = transform.TransformDirection(transform.forward * speedB * Time.deltaTime);
+            // bullet.GetComponent<Rigidbody2D>().velocity += essstacosa * speedB *Time.deltaTime;
+            //  bullet.GetComponent<Rigidbody2D>().velocity += new Vector2(transform.forward.x, transform.forward.y) * speedB * Time.deltaTime;
+            bullet.GetComponent<Rigidbody>().velocity += new Vector3(transform.forward.x, transform.forward.y, 0) * speedB * Time.deltaTime ;
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D c)
