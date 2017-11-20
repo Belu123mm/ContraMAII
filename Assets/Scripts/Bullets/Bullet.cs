@@ -19,9 +19,7 @@ public class Bullet : MonoBehaviour
     public float timer;
     public float sen;
     public float cos;
-    private void Start() {
 
-    }
     void Update()
     {
         sen = Mathf.Sin(bSpw.bulletTimer * 20);
@@ -41,7 +39,7 @@ public class Bullet : MonoBehaviour
 
     public void Initialize()        //Start de la bala. Luego las funciones son el update
     {
-        bSpw= FindObjectOfType<Character>().GetComponentInChildren<BulletSpawn>();
+        bSpw = FindObjectOfType<Character>().GetComponentInChildren<BulletSpawn>();
         if (bSpw.bulletType == "normal")
         {
             OneShoot._bullet = this;
@@ -65,9 +63,8 @@ public class Bullet : MonoBehaviour
         x = Random.Range(Mathf.Abs(y), 3f);
         z = 0;
         rndOr = new Vector3(x, y, z);
-        print(rndOr);
         distance = 0;
-        this.transform.position = BulletSpawn.character.position + new Vector3(0, 0.05f, 0);
+        transform.position = BulletSpawn.character.position + new Vector3(0, 0.05f, 0);
     }
 
     public static void InitializeBullet(Bullet bullet)
@@ -83,13 +80,11 @@ public class Bullet : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D c)
     {
-        //  if ( c.gameObject.tag == "Enemy" ) {
-        //    cMurio = true;
         BulletSpawn.Instance.ReturnBulletToPool(this);
     }
 
     public static void Shooting()
     {
-    //    shootInterface.Shoot();
+        //    shootInterface.Shoot();
     }
 }

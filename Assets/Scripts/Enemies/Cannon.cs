@@ -12,8 +12,6 @@ public class Cannon : MonoBehaviour
     public float timeToShoot;
     public float speedB;
 
-
-
     public Transform hero;
     public Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
 
@@ -41,8 +39,11 @@ public class Cannon : MonoBehaviour
         {
             rend.enabled = true;
             c.enabled = true;
+            //Busco la direccion entre el transform del hero y el cañon
             Vector3 dir = (hero.position - transform.position).normalized;
+            //Busca la tangente en Y y X, y la hago grados. El -180 esta para acomodar el cañon del enemy
             float zAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180;
+            //Lo roto 
             transform.rotation = Quaternion.Euler(0, 0, zAngle);
             Attack();
         }
@@ -59,11 +60,7 @@ public class Cannon : MonoBehaviour
             Vector2 essstacosa = transform.forward;
             //Lo hice en plan de buscar el cañon por separado despues para simular la animacion, blabla. Igual no se mueve :c
             bullet.transform.position = transform.position;
-            //  bullet.transform.position += transform.forward * Time.deltaTime * speedB;
-            //  bullet.GetComponent<Rigidbody2D>().velocity = transform.TransformDirection(transform.forward * speedB * Time.deltaTime);
-            // bullet.GetComponent<Rigidbody2D>().velocity += essstacosa * speedB *Time.deltaTime;
-            //  bullet.GetComponent<Rigidbody2D>().velocity += new Vector2(transform.forward.x, transform.forward.y) * speedB * Time.deltaTime;
-            bullet.GetComponent<Rigidbody>().velocity += new Vector3(transform.forward.x, transform.forward.y, 0) * speedB * Time.deltaTime ;
+            bullet.transform.position += transform.forward * Time.deltaTime * speedB;
         }
     }
 

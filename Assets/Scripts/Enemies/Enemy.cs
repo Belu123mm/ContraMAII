@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public int score;
-    public int _totalScore;
+    public int totalScore;
     public Text scoreText;
 
     public int speed;
@@ -24,15 +24,12 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        _totalScore = score;
         EventManager.SubscribeToEvent(EventType.Game_score, Score);
         EventManager.SubscribeToEvent(EventType.Game_particles, Particles);
     }
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        ps = GetComponent<ParticleSystem>();
-        ps.Stop();
     }
 
     void Update()
@@ -52,11 +49,13 @@ public class Enemy : MonoBehaviour
         if (life <= 0)
         {
             EventManager.TriggerEvent(EventType.Game_score);
-            //Nope
             EventManager.TriggerEvent(EventType.Game_particles);
-            //esto para que espere algunos segs antes de destruirse asi se ven las particulas
+            EventManager.UnsubscribeToEvent(EventType.Game_score, Score);
+            //esto para que espere algunos segs antes de mandaro al pool asi se ven las particulas
             //      WaitForSeconds();
+            //No lo retorna al pool
             EnemySpawn.instance.ReturnEnemyToPool(this);
+            EventManager.UnsubscribeToEvent(EventType.Game_particles, Particles);
         }
     }
 
@@ -65,6 +64,7 @@ public class Enemy : MonoBehaviour
     {
         if (c.gameObject.tag == "Hero" || c.gameObject.tag == "Spell")
             life -= 10;
+        EnemySpawn.instance.ReturnEnemyToPool(this);
     }
     #endregion
 
@@ -75,11 +75,11 @@ public class Enemy : MonoBehaviour
         {
             if (timeToShoot >= 1)
             {
-                timeToShoot = 0;
                 blockMovement = true;
                 GameObject bullet = Instantiate(bulletPrefab);
                 bullet.transform.position = transform.position - new Vector3(0.2f, 0, 0);
                 bullet.GetComponent<Rigidbody2D>().velocity += Vector2.left * speedB;
+                timeToShoot = 0;
             }
         }
         else blockMovement = false;
@@ -87,12 +87,9 @@ public class Enemy : MonoBehaviour
     #endregion
 
     #region event score
-    void Score(params object[] param)
+    private void Score(params object[] param)
     {
-        var currentScore = param[0];
-        Debug.Log("Current Score " + currentScore);
         score += 10;
-        scoreText.text = "Score: " + score;
     }
     #endregion
 
@@ -100,11 +97,8 @@ public class Enemy : MonoBehaviour
     void Particles(params object[] param)
     {
         timeEnabled += Time.deltaTime;
-        ps.Play();
-        Debug.Log(ps);
-
-        if (timeEnabled > 5)
-            ps.Stop();
+        ps = GetComponent<ParticleSystem>();
+        ps.Play(); //error aca AAAAAAAAAAAAAAAAH *crisis* AAAAG FUNCIONA 
     }
     #endregion
 

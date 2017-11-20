@@ -27,13 +27,13 @@ public class EnemySpawn : MonoBehaviour
         if (isActive)
         {
             _enemyPool.GetObject();
-
             distance = 0;
         }
     }
 
     private Enemy EnemyFactory()
     {
+        //No se que tan necesario es el factory en los enemigos.....
         return Instantiate<Enemy>(enemyPrefab);
     }
 

@@ -78,7 +78,6 @@
     <Compile Include="Assets\Scripts\AnimationManager.cs" />
     <Compile Include="Assets\Scripts\AudioMananger.cs" />
     <Compile Include="Assets\Scripts\Brain.cs" />
-    <Compile Include="Assets\Scripts\Bridge.cs" />
     <Compile Include="Assets\Scripts\Bullets\Bullet.cs" />
     <Compile Include="Assets\Scripts\Bullets\BulletSpawn.cs" />
     <Compile Include="Assets\Scripts\Bullets\IShoot.cs" />
@@ -87,13 +86,15 @@
     <Compile Include="Assets\Scripts\Bullets\Spread.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
     <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
+    <Compile Include="Assets\Scripts\Enemies\Bridge.cs" />
     <Compile Include="Assets\Scripts\Enemies\Cannon.cs" />
     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemies\EnemySpawn.cs" />
     <Compile Include="Assets\Scripts\Enemies\Runner.cs" />
     <Compile Include="Assets\Scripts\Enemies\WallTurret.cs" />
     <Compile Include="Assets\Scripts\EventMananger\EventManager.cs" />
-    <Compile Include="Assets\Scripts\LanguageObjects.cs" />
+    <Compile Include="Assets\Scripts\LookUpTable.cs" />
+    <Compile Include="Assets\Scripts\Menu\LanguageObjects.cs" />
     <Compile Include="Assets\Scripts\Menu\LanguageSelection.cs" />
     <Compile Include="Assets\Scripts\Menu\LngObj.cs" />
     <Compile Include="Assets\Scripts\Pool\Pool.cs" />

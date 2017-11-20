@@ -5,75 +5,67 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class Character : MonoBehaviour
 {
-    public float life;
-    private float _totalLife;
     public int amountOfLifes;
-    public static Vector2 myPos;
-    public Vector2 movDirection;
-    public static Vector2 characterViewDirection;
+    public float life;
     public float speed;
+    private float _totalLife;
+    public Vector2 movDirection;
+    public static Vector2 myPos;
+    public static Vector2 characterViewDirection;
+    public Rigidbody2D rb;
+    public BulletSpawn bulletSpawn;
+    public List<Collider2D> levelColl = new List<Collider2D>();
     public bool _win;
     public bool _lose;
     public bool deadCharacter = false;
-    public BulletSpawn bulletSpawn;
     public bool spreadPw;
     public bool sinusoidalPW;
-    public List<Collider2D> levelColl = new List<Collider2D>();
-    public Rigidbody2D rb;
+
+    //test
+    public bool normal = true;
 
     void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        //esssto, arreglame esto porque no me detecta los colliders del puente choto ese que se cae y no se si funciona :c 
         var coll = GameObject.Find("Colliders").GetComponentsInChildren<Collider2D>();
-        foreach ( var item in coll ) {
+        foreach (var item in coll)
+        {
             levelColl.Add(item);
         }
-        _totalLife = life; //Le asigno la laif
+        _totalLife = life; 
 
         #region Events
-        EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated); //Evento de cambio de vida.     /   Funciona
-        EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated); //Evento de muerte            /   Funciona                                                                          
-        EventManager.SubscribeToEvent(EventType.Game_lose, Lose); //Evento de lose                       /   Funciona   
+        EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
+        EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated);                                                                
+        EventManager.SubscribeToEvent(EventType.Game_lose, Lose); 
         #endregion
     }
-
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         myPos = transform.position;
         movDirection = Vector2.zero;
 
-        //esto ponerlo en el brain
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            BulletSpawn.bulletPool.GetObject();
-            BulletSpawn.PerformShoot();
-        }
-        if (Input.GetKey(KeyCode.T))
+        //test      Funciona yay *-* 
+        //Deberian poner emojis asi programar es mas divertido 
+        if (normal)
         {
             bulletSpawn.bulletType = "normal";
-            print(bulletSpawn.bulletType);
         }
-        if (Input.GetKey(KeyCode.Y))
+        if (spreadPw)
         {
             bulletSpawn.bulletType = "spread";
-            print(bulletSpawn.bulletType);
         }
-        if (Input.GetKey(KeyCode.U))
+        if (sinusoidalPW)
         {
+            //Esto sigue sin funcionar ._. :c O sea, entra aca pero se queda quieta 
             bulletSpawn.bulletType = "sinusoidal";
-            print(bulletSpawn.bulletType);
         }
         if (life <= 0)
-            EventManager.TriggerEvent(EventType.Hero_death); //Disparo el evento de que se murio
+            EventManager.TriggerEvent(EventType.Hero_death); 
 
         if (amountOfLifes == 0)
             EventManager.TriggerEvent(EventType.Game_lose);
-        
     }
 
     #region move
@@ -91,8 +83,8 @@ public class Character : MonoBehaviour
     }
     #endregion
 
-    //Salto
-    public void Jump(float jumpForce) {
+    public void Jump(float jumpForce)
+    {
         rb.AddForce(Vector2.up * jumpForce);
     }
 
@@ -100,19 +92,15 @@ public class Character : MonoBehaviour
     private void LifeUpdated(params object[] param)
     {
         var currentLife = (float)param[0];
-        Debug.Log("Actual Life " + currentLife);
         if (deadCharacter && amountOfLifes < 0)
         {
             life = 100;
-            Debug.Log(amountOfLifes);
         }
     }
     private void HeroDefeated(params object[] parameters)
     {
-        Debug.Log("HERO DEFEATED");
         deadCharacter = true;
         amountOfLifes--;
-        //Me desubscribo de todos los eventos 
         EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
         EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
     }
@@ -138,10 +126,18 @@ public class Character : MonoBehaviour
             EventManager.TriggerEvent(EventType.Hero_life, new object[] { life, _totalLife });
         }
         if (c.gameObject.tag == "spread")
+        {
             spreadPw = true;
+            sinusoidalPW = false;
+            normal = false;            
+        }
 
         if (c.gameObject.tag == "Sinusoidal")
+        {
             sinusoidalPW = true;
+            spreadPw = false;
+            normal = false;
+        }
     }
     #endregion
 }

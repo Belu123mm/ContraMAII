@@ -19,10 +19,9 @@ public class BulletSpawn : MonoBehaviour
         bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
         character = GetComponentInParent<Transform>();
     }
-    private void Update()
+    void Update()
     {
         bulletTimer += Time.deltaTime;
-
     }
 
     private Bullet BulletFactory()
