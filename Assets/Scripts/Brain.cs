@@ -18,9 +18,14 @@ public class Brain : MonoBehaviour
         if (Input.GetAxis("Horizontal") > 0 ) {
         Character.characterViewDirection = Vector2.right;
         _ch.Move(Vector2.right * Input.GetAxis("Horizontal"));
-            print("hello");
-        }
-        else if (Input.GetAxis("Horizontal") < 0 ) {
+            charAnim.SetBool("walking", true);
+            charAnim.SetBool("walkMirror", false);
+            charAnim.SetBool("jump", false);
+            charAnim.SetBool("walking", true);
+            charAnim.SetBool("walkMirror", true);
+
+
+        } else if (Input.GetAxis("Horizontal") < 0 ) {
             Character.characterViewDirection = Vector2.left;
             _ch.Move(Vector2.left * -Input.GetAxis("Horizontal"));
         }
@@ -46,6 +51,7 @@ public class Brain : MonoBehaviour
             float _tempJumpForce = jumpForce;
                 _ch.Jump(_tempJumpForce);
             spammingSpace = true;
+            charAnim.SetBool("walking", false);
             charAnim.SetBool("jump", true);
 
             if ( spammingSpace ) {
@@ -55,6 +61,10 @@ public class Brain : MonoBehaviour
                 ground = false;
             }
         }
+        if ( Input.GetKey(KeyCode.C) ) {
+            charAnim.SetBool("walking", false);
+        }
+
     }
     void OnCollisionEnter2D( Collision2D c ) {
         if ( c.gameObject.layer == LayerMask.NameToLayer("level") ) {

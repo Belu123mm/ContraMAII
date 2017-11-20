@@ -75,11 +75,6 @@ public class Character : MonoBehaviour
             EventManager.TriggerEvent(EventType.Game_lose);
         
     }
-    private void FixedUpdate() {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up);
-        if ( hit.collider != null )
-            Debug.DrawLine(this.transform.position, hit.point);
-    }
 
     #region move
     public void Move(Vector2 direction)
