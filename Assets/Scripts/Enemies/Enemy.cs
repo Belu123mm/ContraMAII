@@ -22,18 +22,16 @@ public class Enemy : MonoBehaviour
 
     public Rigidbody _rigidbody;
 
-    private void Awake()
-    {
+    private void Awake() {
         EventManager.SubscribeToEvent(EventType.Game_score, Score);
         EventManager.SubscribeToEvent(EventType.Game_particles, Particles);
     }
-    void Start()
-    {
+
+    void Start() {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
+    void Update() {
         scoreText.text = "Score: " + score;
 
         timeToShoot += Time.deltaTime;

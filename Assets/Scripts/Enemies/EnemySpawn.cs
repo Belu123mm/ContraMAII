@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawn : MonoBehaviour
-{
+public class EnemySpawn : MonoBehaviour {
+
     public Enemy enemyPrefab;
     private Pool<Enemy> _enemyPool;
 
@@ -14,14 +14,12 @@ public class EnemySpawn : MonoBehaviour
     public int ammountOfEnemies;
     public bool isActive;
 
-    void Awake()
-    {
+    void Awake() {
         _instance = this;
         _enemyPool = new Pool<Enemy>(15, EnemyFactory, Enemy.InitializeEnemy, Enemy.DisposeEnemy, true);
     }
 
-    void Update()
-    {
+    void Update() {
         distance = Vector2.Distance(Character.myPos, transform.position);
 
         if (isActive)
@@ -31,18 +29,16 @@ public class EnemySpawn : MonoBehaviour
         }
     }
 
-    private Enemy EnemyFactory()
-    {
+    private Enemy EnemyFactory() {
         //No se que tan necesario es el factory en los enemigos.....
         return Instantiate<Enemy>(enemyPrefab);
     }
 
-    public void ReturnEnemyToPool(Enemy enemy)
-    {
+    public void ReturnEnemyToPool(Enemy enemy) {
         _enemyPool.Disable(enemy);
     }
-    public void OnTriggerEnter2D(Collider2D c)
-    {
+
+    public void OnTriggerEnter2D(Collider2D c) {
         if (c.gameObject.tag == "Hero")
         {
             isActive = true;

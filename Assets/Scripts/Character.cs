@@ -40,6 +40,7 @@ public class Character : MonoBehaviour {
         #endregion
     }
     void Update() {
+
         myPos = transform.position;
         movDirection = Vector2.zero;
 
@@ -54,6 +55,7 @@ public class Character : MonoBehaviour {
         if ( sinusoidalPW ) {
             //Esto sigue sin funcionar ._. :c O sea, entra aca pero se queda quieta 
             bulletSpawn.bulletType = "sinusoidal";
+            Debug.Log("pium pium sinu");
         }
         if ( life <= 0 )
             EventManager.TriggerEvent(EventType.Hero_death);
@@ -101,6 +103,7 @@ public class Character : MonoBehaviour {
         EventManager.UnsubscribeToEvent(EventType.Game_lose, Lose);
         SceneManager.LoadScene("GameOver");
     }
+
     void OnCollisionEnter2D( Collision2D c ) {
         if ( c.gameObject.tag == "Enemy" ) {
             life -= 10;

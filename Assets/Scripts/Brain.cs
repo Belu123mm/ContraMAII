@@ -8,6 +8,7 @@ public class Brain : MonoBehaviour {
     private Character _ch;
     private Animator _charAnim;
     private SpriteRenderer _spr;
+
     private void Start() {
         _ch = GetComponent<Character>();
         _charAnim = GetComponent<Animator>();
@@ -62,9 +63,11 @@ public class Brain : MonoBehaviour {
             }
         }
         //Disparo
-        if ( Input.GetKey(KeyCode.X) ) {//Anima pero no dispara, wait que no me acuerdo como disparar :V
+        if ( Input.GetKey(KeyCode.Space) ) {//Anima pero no dispara, wait que no me acuerdo como disparar :V
             _charAnim.SetBool("shoot", true);
             _ch.Shoot();
+            BulletSpawn.bulletPool.GetObject();
+            BulletSpawn.PerformShoot();
         }
         //Abajo
         if ( Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ) {
