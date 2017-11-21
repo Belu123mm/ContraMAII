@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Brain : MonoBehaviour {
-    public bool spammingSpace, ground;
+    public bool spammingSpace, ground, down;
     public float jumpForce;
     private Character _ch;
     private Animator _charAnim;
@@ -23,14 +23,15 @@ public class Brain : MonoBehaviour {
             _charAnim.SetBool("up", false);
         }
         //Movimiento lado a lado
-        if ( Input.GetAxis("Horizontal") > 0 ) {
+        if ( Input.GetAxis("Horizontal") > 0 && !down) {
             Character.characterViewDirection = Vector2.right;
             _ch.Move(Vector2.right * Input.GetAxis("Horizontal"));
             _charAnim.SetBool("walking", true);
             _charAnim.SetBool("jump", false);
             _spr.flipX = false;
 
-        } else if ( Input.GetAxis("Horizontal") < 0 ) {
+        }
+        else if ( Input.GetAxis("Horizontal") < 0 && !down) {
             Character.characterViewDirection = Vector2.left;
             _ch.Move(Vector2.left * -Input.GetAxis("Horizontal"));
             _charAnim.SetBool("walking", true);
@@ -67,10 +68,12 @@ public class Brain : MonoBehaviour {
         }
         //Abajo
         if ( Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ) {
+            down = true;
             _ch.Move(Vector2.zero);
             _charAnim.SetBool("down", true);
             _charAnim.SetBool("walking", false);
         } else {
+            down = false;
             _charAnim.SetBool("down", false);
         }
 
@@ -78,7 +81,6 @@ public class Brain : MonoBehaviour {
     //Colisiones
     void OnCollisionEnter2D( Collision2D c ) {
         if ( c.gameObject.layer == LayerMask.NameToLayer("level") ) {
-            print("BAM");
             _charAnim.SetBool("jump", false);
             _ch.rb.velocity = Vector3.zero;
             _ch.rb.angularVelocity = 0f;

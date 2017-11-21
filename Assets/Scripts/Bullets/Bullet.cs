@@ -57,7 +57,6 @@ public class Bullet : MonoBehaviour
             shootBehavoiur = new Sinusoidal();
         }
 
-
         bulletOr = Character.characterViewDirection;
         y = Random.Range(-0.2f, 0.4f);
         x = Random.Range(Mathf.Abs(y), 3f);

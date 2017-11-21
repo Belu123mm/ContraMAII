@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+
 public class Character : MonoBehaviour {
+
     public int amountOfLifes;
     public float life;
     public float speed;
@@ -25,13 +27,12 @@ public class Character : MonoBehaviour {
 
     void Awake() {
         rb = this.GetComponent<Rigidbody2D>();
-        //esssto, arreglame esto porque no me detecta los colliders del puente choto ese que se cae y no se si funciona :c 
         var coll = GameObject.Find("Colliders").GetComponentsInChildren<Collider2D>();
         foreach ( var item in coll ) {
             levelColl.Add(item);
         }
         _totalLife = life;
-
+        
         #region Events
         EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
         EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated);
@@ -44,7 +45,7 @@ public class Character : MonoBehaviour {
 
         //test      Funciona yay *-* 
         //Deberian poner emojis asi programar es mas divertido 
-        if ( normal ) {
+        if ( normal ) { 
             bulletSpawn.bulletType = "normal";
         }
         if ( spreadPw ) {
