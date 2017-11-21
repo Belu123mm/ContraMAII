@@ -31,12 +31,12 @@ public class Bridge : MonoBehaviour
         }
 
     }
-
-    private void OnCollisionEnter2D(Collision2D c)
-    {
-        if (c.gameObject.tag == "Hero")
-        {
+    private void OnCollisionEnter2D( Collision2D c ) {
+        print("kuchaw");
+        if ( c.gameObject.tag == "Hero" ) {
             _isActive = true;
         }
+
     }
+
 }
