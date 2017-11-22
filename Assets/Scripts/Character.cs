@@ -9,7 +9,6 @@ public class Character : MonoBehaviour {
     public int amountOfLifes;
     public float life;
     public float speed;
-    private float _totalLife;
     public Vector2 movDirection;
     public static Vector2 myPos;
     public static Vector2 characterViewDirection;
@@ -21,9 +20,9 @@ public class Character : MonoBehaviour {
     public bool deadCharacter = false;
     public bool spreadPw;
     public bool sinusoidalPW;
-
-    //test
     public bool normal = true;
+
+    private float _totalLife;
 
     void Awake() {
         rb = this.GetComponent<Rigidbody2D>();
@@ -32,31 +31,24 @@ public class Character : MonoBehaviour {
             levelColl.Add(item);
         }
         _totalLife = life;
-        
-        #region Events
+        //Events        
         EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
         EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated);
         EventManager.SubscribeToEvent(EventType.Game_lose, Lose);
-        #endregion
     }
     void Update() {
 
         myPos = transform.position;
         movDirection = Vector2.zero;
 
-        //test      Funciona yay *-* 
-        //Deberian poner emojis asi programar es mas divertido 
-        if ( normal ) { 
-            bulletSpawn.bulletType = "normal";
-        }
-        if ( spreadPw ) {
-            bulletSpawn.bulletType = "spread";
-        }
-        if ( sinusoidalPW ) {
-            //Esto sigue sin funcionar ._. :c O sea, entra aca pero se queda quieta 
+        if ( normal ) 
+            bulletSpawn.bulletType = "normal";        
+        if ( spreadPw ) 
+            bulletSpawn.bulletType = "spread";        
+        if ( sinusoidalPW ) 
             bulletSpawn.bulletType = "sinusoidal";
-            Debug.Log("pium pium sinu");
-        }
+        
+
         if ( life <= 0 )
             EventManager.TriggerEvent(EventType.Hero_death);
 
@@ -64,38 +56,33 @@ public class Character : MonoBehaviour {
             EventManager.TriggerEvent(EventType.Game_lose);
     }
 
-    #region move
+
     public void Move( Vector2 direction ) {
         movDirection += direction;
         rb.velocity = movDirection * speed;
     }
-    #endregion
 
-    #region shoot
     public void Shoot() {
-        BulletSpawn.PerformShoot();
+        BulletSpawn.bulletPool.GetObject();
     }
-    #endregion
 
     public void Jump( float jumpForce ) {
         rb.AddForce(Vector2.up * jumpForce);
     }
 
-    #region evento de vida y muerte
     private void LifeUpdated( params object [] param ) {
         var currentLife = (float) param [ 0 ];
         if ( deadCharacter && amountOfLifes < 0 ) {
             life = 100;
         }
     }
+
     private void HeroDefeated( params object [] parameters ) {
         deadCharacter = true;
         amountOfLifes--;
         EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
         EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
     }
-    #endregion
-
 
     private void Lose( params object [] param ) {
         EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);

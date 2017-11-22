@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpawn : MonoBehaviour
-{
+public class BulletSpawn : MonoBehaviour {
     public Bullet bPrefab;
     public static Pool<Bullet> bulletPool;
 
@@ -13,28 +12,20 @@ public class BulletSpawn : MonoBehaviour
     public string bulletType;
     public float bulletTimer;
 
-    void Awake()
-    {
+    void Awake() {
         _instance = this;
         bulletPool = new Pool<Bullet>(8, BulletFactory, Bullet.InitializeBullet, Bullet.DisposeBullet, true);
         character = GetComponentInParent<Transform>();
     }
-    void Update()
-    {
+    void Update() {
         bulletTimer += Time.deltaTime;
     }
 
-    private Bullet BulletFactory()
-    {
+    private Bullet BulletFactory() {
         return Instantiate<Bullet>(bPrefab);
     }
 
-    public void ReturnBulletToPool(Bullet bullet)
-    {
+    public void ReturnBulletToPool( Bullet bullet ) {
         bulletPool.Disable(bullet);
-    }
-    public static void PerformShoot()
-    {
-        Bullet.Shooting();     //Cambiar este shoot
     }
 }

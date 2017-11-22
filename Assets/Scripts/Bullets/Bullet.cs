@@ -3,56 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
     public float speed;
     public float distance;
     public float maxDistance;
-    public bool cMurio;
-    public static IShoot shootBehavoiur;
-    public Vector3 bulletOr;
-    public float x;
-    public float y;
-    public float z;
-    public Vector3 rndOr;
-    public BulletSpawn bSpw;
     public float timer;
     public float sen;
     public float cos;
+    public float x;
+    public float y;
+    public float z;
+    public bool cMurio;
+    public Vector3 bulletOr;
+    public Vector3 rndOr;
+    public BulletSpawn bSpw;
+    public static IShoot shootBehavoiur;
 
-    void Update()
-    {
+    void Update() {
         sen = Mathf.Sin(bSpw.bulletTimer * 20);
         cos = Mathf.Cos(bSpw.bulletTimer * 20);
 
         timer = bSpw.bulletTimer;
-        if (shootBehavoiur != null)
-        {
+        if ( shootBehavoiur != null ) 
             shootBehavoiur.Shoot();
-        }
-
-        if (cMurio || distance > maxDistance)
-        {
+        
+        if ( cMurio || distance > maxDistance ) 
             BulletSpawn.Instance.ReturnBulletToPool(this);
-        }
+        
     }
 
     public void Initialize()        //Start de la bala. Luego las funciones son el update
     {
         bSpw = FindObjectOfType<Character>().GetComponentInChildren<BulletSpawn>();
-        if (bSpw.bulletType == "normal")
-        {
+
+        if ( bSpw.bulletType == "normal" ) {
             OneShoot._bullet = this;
             shootBehavoiur = new OneShoot();
-
         }
-        if (bSpw.bulletType == "spread")
-        {
+        if ( bSpw.bulletType == "spread" ) {
             Spread._bullet = this;
             shootBehavoiur = new Spread();
         }
-        if (bSpw.bulletType == "sinusoidal")
-        {
+        if ( bSpw.bulletType == "sinusoidal" ) {
             Sinusoidal._bullet = this;
             shootBehavoiur = new Sinusoidal();
         }
@@ -66,24 +58,17 @@ public class Bullet : MonoBehaviour
         transform.position = BulletSpawn.character.position + new Vector3(0, 0.05f, 0);
     }
 
-    public static void InitializeBullet(Bullet bullet)
-    {
+    public static void InitializeBullet( Bullet bullet ) {
         bullet.gameObject.SetActive(true);
         bullet.Initialize();
     }
 
-    public static void DisposeBullet(Bullet bullet)
-    {
+    public static void DisposeBullet( Bullet bullet ) {
         bullet.gameObject.SetActive(false);
     }
 
-    public void OnCollisionEnter2D(Collision2D c)
-    {
+    public void OnCollisionEnter2D( Collision2D c ) {
         BulletSpawn.Instance.ReturnBulletToPool(this);
     }
 
-    public static void Shooting()
-    {
-        //    shootInterface.Shoot();
-    }
 }

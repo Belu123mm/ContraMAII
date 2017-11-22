@@ -30,7 +30,6 @@ public class EnemySpawn : MonoBehaviour {
     }
 
     private Enemy EnemyFactory() {
-        //No se que tan necesario es el factory en los enemigos.....
         return Instantiate<Enemy>(enemyPrefab);
     }
 

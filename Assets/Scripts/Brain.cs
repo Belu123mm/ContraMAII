@@ -24,15 +24,14 @@ public class Brain : MonoBehaviour {
             _charAnim.SetBool("up", false);
         }
         //Movimiento lado a lado
-        if ( Input.GetAxis("Horizontal") > 0 && !down) {
+        if ( Input.GetAxis("Horizontal") > 0 && !down ) {
             Character.characterViewDirection = Vector2.right;
             _ch.Move(Vector2.right * Input.GetAxis("Horizontal"));
             _charAnim.SetBool("walking", true);
             _charAnim.SetBool("jump", false);
             _spr.flipX = false;
 
-        }
-        else if ( Input.GetAxis("Horizontal") < 0 && !down) {
+        } else if ( Input.GetAxis("Horizontal") < 0 && !down ) {
             Character.characterViewDirection = Vector2.left;
             _ch.Move(Vector2.left * -Input.GetAxis("Horizontal"));
             _charAnim.SetBool("walking", true);
@@ -62,12 +61,10 @@ public class Brain : MonoBehaviour {
                 ground = false;
             }
         }
-        //Disparo
-        if ( Input.GetKey(KeyCode.Space) ) {//Anima pero no dispara, wait que no me acuerdo como disparar :V
+        //Disparo        
+        if ( Input.GetKey(KeyCode.X) ) {//Ver el tema del delay pls ty :3
             _charAnim.SetBool("shoot", true);
             _ch.Shoot();
-            BulletSpawn.bulletPool.GetObject();
-            BulletSpawn.PerformShoot();
         }
         //Abajo
         if ( Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ) {
@@ -91,5 +88,4 @@ public class Brain : MonoBehaviour {
             spammingSpace = false;
         }
     }
-
 }
