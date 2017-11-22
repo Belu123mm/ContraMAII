@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour
     public Rigidbody _rigidbody;
 
     private void Awake() {
-        EventManager.SubscribeToEvent(EventType.Game_score, Score);
-        EventManager.SubscribeToEvent(EventType.Game_particles, Particles);
+        EventManager.SubscribeToEvent("Score", Score);
+        EventManager.SubscribeToEvent("Particles", Particles);
     }
 
     void Start() {
@@ -46,14 +46,14 @@ public class Enemy : MonoBehaviour
 
         if (life <= 0)
         {
-            EventManager.TriggerEvent(EventType.Game_score);
-            EventManager.TriggerEvent(EventType.Game_particles);
-            EventManager.UnsubscribeToEvent(EventType.Game_score, Score);
+            EventManager.TriggerEvent("Score");
+            EventManager.TriggerEvent("Particles");
+            EventManager.UnsubscribeToEvent("Score", Score);
             //esto para que espere algunos segs antes de mandaro al pool asi se ven las particulas
             //      WaitForSeconds();
             //No lo retorna al pool
             EnemySpawn.instance.ReturnEnemyToPool(this);
-            EventManager.UnsubscribeToEvent(EventType.Game_particles, Particles);
+            EventManager.UnsubscribeToEvent("Particles", Particles);
         }
     }
 

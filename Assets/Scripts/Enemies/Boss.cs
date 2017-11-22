@@ -3,26 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Boss : Enemy
-{
+public class Boss : Enemy {
 
-    void Start()
-    {
+    private void Awake() {
+        EventManager.SubscribeToEvent("Win", Win);
+    } 
+        void Start() {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
+    void Update() {
         timeToShoot += Time.deltaTime;
         distance = Vector2.Distance(Character.myPos, transform.position);
 
         Attack();
 
-        if (life <= 0)
-        {
+        if (life <= 0) {
             Destroy(gameObject);
-            //animacion aca y un yield para que termine de hacer la animacion y despues cambie de escena
-            EventManager.TriggerEvent(EventType.Game_win);
+            EventManager.TriggerEvent("Win");
         }
     }
 

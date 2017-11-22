@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class Character : MonoBehaviour {
 
     public int amountOfLifes;
+    public Text amountOfLifesText;
     public float life;
     public float speed;
     public Vector2 movDirection;
@@ -17,7 +18,6 @@ public class Character : MonoBehaviour {
     public List<Collider2D> levelColl = new List<Collider2D>();
     public bool _win;
     public bool _lose;
-    public bool deadCharacter = false;
     public bool spreadPw;
     public bool sinusoidalPW;
     public bool normal = true;
@@ -27,16 +27,21 @@ public class Character : MonoBehaviour {
     void Awake() {
         rb = this.GetComponent<Rigidbody2D>();
         var coll = GameObject.Find("Colliders").GetComponentsInChildren<Collider2D>();
+
         foreach ( var item in coll ) {
             levelColl.Add(item);
         }
+
         _totalLife = life;
+
         //Events        
-        EventManager.SubscribeToEvent(EventType.Hero_life, LifeUpdated);
-        EventManager.SubscribeToEvent(EventType.Hero_death, HeroDefeated);
-        EventManager.SubscribeToEvent(EventType.Game_lose, Lose);
+        EventManager.SubscribeToEvent("Life", LifeUpdated);
+        EventManager.SubscribeToEvent("Hero defeated", HeroDefeated);
+        EventManager.SubscribeToEvent("Lose", Lose);
     }
+
     void Update() {
+        amountOfLifesText.text = "Lifes: " + amountOfLifes;
 
         myPos = transform.position;
         movDirection = Vector2.zero;
@@ -47,13 +52,14 @@ public class Character : MonoBehaviour {
             bulletSpawn.bulletType = "spread";        
         if ( sinusoidalPW ) 
             bulletSpawn.bulletType = "sinusoidal";
-        
 
-        if ( life <= 0 )
-            EventManager.TriggerEvent(EventType.Hero_death);
-
-        if ( amountOfLifes == 0 )
-            EventManager.TriggerEvent(EventType.Game_lose);
+        if (life <= 0 && amountOfLifes > 0)
+        {
+            EventManager.TriggerEvent("Hero defeated");
+            life = 100;
+        }
+        if (amountOfLifes <= 0)
+            EventManager.TriggerEvent("Lose");
     }
 
 
@@ -72,29 +78,23 @@ public class Character : MonoBehaviour {
 
     private void LifeUpdated( params object [] param ) {
         var currentLife = (float) param [ 0 ];
-        if ( deadCharacter && amountOfLifes < 0 ) {
-            life = 100;
-        }
     }
 
     private void HeroDefeated( params object [] parameters ) {
-        deadCharacter = true;
         amountOfLifes--;
-        EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
-        EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
     }
 
     private void Lose( params object [] param ) {
-        EventManager.UnsubscribeToEvent(EventType.Hero_death, HeroDefeated);
-        EventManager.UnsubscribeToEvent(EventType.Hero_life, LifeUpdated);
-        EventManager.UnsubscribeToEvent(EventType.Game_lose, Lose);
+        EventManager.UnsubscribeToEvent("Hero defeated", HeroDefeated);
+        EventManager.UnsubscribeToEvent("Life", LifeUpdated);
+        EventManager.UnsubscribeToEvent("Lose", Lose);
         SceneManager.LoadScene("GameOver");
     }
 
     void OnCollisionEnter2D( Collision2D c ) {
         if ( c.gameObject.tag == "Enemy" ) {
-            life -= 10;
-            EventManager.TriggerEvent(EventType.Hero_life, new object [] { life, _totalLife });
+            life -= 50;
+            EventManager.TriggerEvent("Life", new object [] { life, _totalLife });
         }
         if ( c.gameObject.tag == "spread" ) {
             spreadPw = true;

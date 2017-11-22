@@ -20,8 +20,8 @@ public class Bullet : MonoBehaviour {
     public static IShoot shootBehavoiur;
 
     void Update() {
-        sen = Mathf.Sin(bSpw.bulletTimer * 20);
-        cos = Mathf.Cos(bSpw.bulletTimer * 20);
+        sen += Mathf.Sin(Time.deltaTime * 20);
+        cos += Mathf.Cos(Time.deltaTime * 20);
 
         timer = bSpw.bulletTimer;
         if ( shootBehavoiur != null ) 
