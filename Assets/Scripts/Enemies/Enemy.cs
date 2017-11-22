@@ -49,8 +49,7 @@ public class Enemy : MonoBehaviour
             EventManager.TriggerEvent("Score");
             EventManager.TriggerEvent("Particles");
             EventManager.UnsubscribeToEvent("Score", Score);
-            //esto para que espere algunos segs antes de mandaro al pool asi se ven las particulas
-            //      WaitForSeconds();
+
             //No lo retorna al pool
             EnemySpawn.instance.ReturnEnemyToPool(this);
             EventManager.UnsubscribeToEvent("Particles", Particles);

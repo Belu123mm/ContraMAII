@@ -15,8 +15,7 @@ public class PowerUp : MonoBehaviour
     public int rndPos;
     public int rndPw;
 
-    void Update()
-    {
+    void Update() {
         time += Time.deltaTime;
         timeToDead += Time.deltaTime;
 
@@ -52,9 +51,6 @@ public class PowerUp : MonoBehaviour
 
     void Drop()
     {
-        //Falta poner el pw de bala mas rapida, hay otro que es de que destruye los enemigos basicos, uno de bala triple
-        //y otro que nada te mata, a menos
-        //que te caigas a un pozo JE. No se si vamos a ponerlos, dejo estos, si queres despues los agrego bb
         rndPw = Random.Range(0, 100);
         if (rndPw < 50)
         {
@@ -75,8 +71,7 @@ public class PowerUp : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.gameObject.tag == "Spell" || c.gameObject.tag == "Hero")
-        {
+        if (c.gameObject.tag == "Spell" || c.gameObject.tag == "Hero") {
             destroy = true;
             Drop();
         }

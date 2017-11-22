@@ -8,7 +8,7 @@ public class BulletSpawn : MonoBehaviour {
 
     private static BulletSpawn _instance;
     public static BulletSpawn Instance { get { return _instance; } }
-    public static Transform character;      //Ver este static
+    public static Transform character;     
     public string bulletType;
     public float bulletTimer;
 

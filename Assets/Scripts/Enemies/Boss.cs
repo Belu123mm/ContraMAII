@@ -20,7 +20,7 @@ public class Boss : Enemy {
 
         if (life <= 0) {
             Destroy(gameObject);
-            EventManager.TriggerEvent("Win");
+            EventManager.TriggerEvent("main");
         }
     }
 

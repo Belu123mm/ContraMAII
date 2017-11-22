@@ -10,6 +10,6 @@ public class Spread : IShoot
     public void Shoot()
     {
         _bullet.distance = Vector2.Distance(BulletSpawn.character.position, _bullet.transform.position);
-        _bullet.GetComponent<Rigidbody2D>().velocity = _bullet.rndOr * _bullet.speed;        //Usar direccion del character
+        _bullet.GetComponent<Rigidbody2D>().velocity = _bullet.rndOr * _bullet.speed;
     }
 }
