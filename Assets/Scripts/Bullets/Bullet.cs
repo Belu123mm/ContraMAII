@@ -10,9 +10,7 @@ public class Bullet : MonoBehaviour {
     public float timer;
     public float sen;
     public float cos;
-    public float x;
     public float y;
-    public float z;
     public bool cMurio;
     public Vector3 bulletOr;
     public Vector3 rndOr;
@@ -51,9 +49,7 @@ public class Bullet : MonoBehaviour {
 
         bulletOr = Character.characterViewDirection;
         y = Random.Range(-0.2f, 0.4f);
-        x = Random.Range(Mathf.Abs(y), 3f);
-        z = 0;
-        rndOr = new Vector3(x, y, z);
+        rndOr = bulletOr + new Vector3(0, y, 0);
         distance = 0;
         transform.position = BulletSpawn.character.position + new Vector3(0, 0.05f, 0);
     }

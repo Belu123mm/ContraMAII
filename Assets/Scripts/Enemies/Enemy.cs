@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public int score;
-    public int totalScore;
+    public static int score;
+    public static int totalScore;
     public Text scoreText;
 
-    public int speed;
+    public float speed;
     public int life;
     public int speedB;
     public float timeToShoot;
@@ -22,16 +22,19 @@ public class Enemy : MonoBehaviour
 
     public Rigidbody _rigidbody;
 
-    private void Awake() {
+    private void Awake()
+    {
         EventManager.SubscribeToEvent("Score", Score);
         EventManager.SubscribeToEvent("Particles", Particles);
     }
 
-    void Start() {
+    void Start()
+    {
         _rigidbody = GetComponent<Rigidbody>();
     }
 
-    void Update() {
+    void Update()
+    {
         scoreText.text = "Score: " + score;
 
         timeToShoot += Time.deltaTime;
@@ -49,10 +52,10 @@ public class Enemy : MonoBehaviour
             EventManager.TriggerEvent("Score");
             EventManager.TriggerEvent("Particles");
             EventManager.UnsubscribeToEvent("Score", Score);
-
-            //No lo retorna al pool
+            //No lo retorna al pool. 
+            //MeWaAMorir.jpg
             EnemySpawn.instance.ReturnEnemyToPool(this);
-            EventManager.UnsubscribeToEvent("Particles", Particles);
+            //    EventManager.UnsubscribeToEvent("Particles", Particles);
         }
     }
 
@@ -61,7 +64,6 @@ public class Enemy : MonoBehaviour
     {
         if (c.gameObject.tag == "Hero" || c.gameObject.tag == "Spell")
             life -= 10;
-        EnemySpawn.instance.ReturnEnemyToPool(this);
     }
     #endregion
 
@@ -70,7 +72,7 @@ public class Enemy : MonoBehaviour
     {
         if (distance < 1)
         {
-            if (timeToShoot >= 1)
+            if (timeToShoot >= 1.5f)
             {
                 blockMovement = true;
                 GameObject bullet = Instantiate(bulletPrefab);
@@ -101,7 +103,8 @@ public class Enemy : MonoBehaviour
 
     public void Initialize()
     {
-        transform.position = Character.myPos + new Vector2(5, 0);
+        float rnd = Random.Range(1.5f, 3);
+        transform.position = Character.myPos + new Vector2(rnd, 0);
         distance = 0;
     }
 

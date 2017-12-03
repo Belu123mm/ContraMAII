@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawn : MonoBehaviour {
+public class EnemySpawn : MonoBehaviour
+{
 
     public Enemy enemyPrefab;
     private Pool<Enemy> _enemyPool;
@@ -10,8 +11,8 @@ public class EnemySpawn : MonoBehaviour {
     private static EnemySpawn _instance;
     public static EnemySpawn instance { get { return _instance; } }
 
-    public float distance;
     public int ammountOfEnemies;
+    public float distance;
     public bool isActive;
 
     void Awake() {
@@ -19,17 +20,18 @@ public class EnemySpawn : MonoBehaviour {
         _enemyPool = new Pool<Enemy>(15, EnemyFactory, Enemy.InitializeEnemy, Enemy.DisposeEnemy, true);
     }
 
-    void Update() {
+    void Update()
+    {
         distance = Vector2.Distance(Character.myPos, transform.position);
 
-        if (isActive)
-        {
+        if (isActive) {
             _enemyPool.GetObject();
             distance = 0;
+            Destroy(gameObject);
         }
     }
 
-    private Enemy EnemyFactory() {
+    private Enemy EnemyFactory(){        
         return Instantiate<Enemy>(enemyPrefab);
     }
 
@@ -37,11 +39,8 @@ public class EnemySpawn : MonoBehaviour {
         _enemyPool.Disable(enemy);
     }
 
-    public void OnTriggerEnter2D(Collider2D c) {
-        if (c.gameObject.tag == "Hero")
-        {
+    public void OnCollisionEnter2D(Collision2D collision) {
+        if(gameObject.tag == "Character")
             isActive = true;
-            Destroy(this);
-        }
     }
 }

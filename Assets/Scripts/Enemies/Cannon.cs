@@ -15,6 +15,9 @@ public class Cannon : MonoBehaviour
     public Transform hero;
     public Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
 
+    //test 
+    public Rigidbody2D bulletRb;
+
 
     void Start()
     {
@@ -60,7 +63,9 @@ public class Cannon : MonoBehaviour
             Vector2 essstacosa = transform.forward;
             //Lo hice en plan de buscar el cañon por separado despues para simular la animacion, blabla. Igual no se mueve :c
             bullet.transform.position = transform.position;
-            bullet.transform.position += transform.forward * Time.deltaTime * speedB;
+            bullet.GetComponent<Rigidbody2D>().velocity += Character.myPos * speedB;
+            //   bullet.transform.position += transform.forward * Time.deltaTime * speedB;
+            //   bullet.transform.position = new Vector3(chararterPos.x, 0, 0) * speedB * Time.deltaTime;
         }
     }
 

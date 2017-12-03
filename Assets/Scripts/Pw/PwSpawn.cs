@@ -19,7 +19,7 @@ public class PwSpawn : MonoBehaviour {
     void Update() {
         timeToAppear += Time.deltaTime;
 
-        if (timeToAppear >= 5) {
+        if (timeToAppear >= 8) {
             _powerUpPool.GetObject();
             timeToAppear = 0;
         }
