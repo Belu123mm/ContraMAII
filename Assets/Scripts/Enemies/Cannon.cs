@@ -11,6 +11,7 @@ public class Cannon : MonoBehaviour
     public float distance;
     public float timeToShoot;
     public float speedB;
+    public Vector3 shootDirection;
 
     public Transform hero;
     public Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
@@ -34,9 +35,30 @@ public class Cannon : MonoBehaviour
         }
     }
 
-    void Update()
-    {
+    void Update() {
         distance = Vector2.Distance(Character.myPos, transform.position);
+        var _angleToChar = Vector3.Angle(Vector3.up, hero.position);
+        var _lineToChar = (this.transform.position - hero.position).normalized;
+        if (_lineToChar.x < 0 ) {
+            if (_angleToChar < 22.5f ) {
+                shootDirection = Vector3.up;              
+            }else if (_angleToChar < 67.5f && _angleToChar > 22.5f ) {
+                shootDirection = new Vector3 (0.5f,0.5f,0)
+            }else {
+                //Desactivar
+            }
+
+        }
+        if (shootDirection == Vector3.up ) {
+            //Aca que dispare para es elado
+
+        }else if (shootDirection == new Vector3(0.5f, 0.5f, 0) ) {
+            //Aca que dispare para ese lado
+        }else if (shootDirection == Vector3.left ) {
+            //Aca para que dispare para ese lado
+        }else {
+            //Desactivar
+        }
 
         if (distance <= 3)
         {
