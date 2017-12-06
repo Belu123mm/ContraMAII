@@ -44,14 +44,4 @@ public class EnemySpawn : MonoBehaviour {
     public void ReturnEnemyToPool( Enemy enemy ) {
         _enemyPool.Disable(enemy);
     }
-
-    public void GetEnemy(Vector3 pos, int cant, float delay) {
-        for ( int i = cant; i > 0; i-- ) {
-            if(timer > delay ) {
-                PoolObject<Enemy> en = _enemyPool.GetPoolObject();
-                Enemy.InitializeEnemy(en.GetObj);
-                timer = 0;
-            }
-        }
-    }
 }

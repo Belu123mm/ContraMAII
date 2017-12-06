@@ -14,7 +14,7 @@ public class Character : MonoBehaviour {
     public static Vector2 myPos;
     public static Vector2 characterViewDirection;
     public Rigidbody2D rb;
-    public BulletSpawn bulletSpawn;
+    public BulletSpawn bulletSpwn;
     public List<Collider2D> levelColl = new List<Collider2D>();
     public bool _win;
     public bool _lose;
@@ -25,6 +25,7 @@ public class Character : MonoBehaviour {
     private float _totalLife;
 
     void Awake() {
+        bulletSpwn = GetComponent<BulletSpawn>();
         rb = this.GetComponent<Rigidbody2D>();
         var coll = GameObject.Find("Colliders").GetComponentsInChildren<Collider2D>();
 
@@ -47,11 +48,11 @@ public class Character : MonoBehaviour {
         movDirection = Vector2.zero;
 
         if ( normal ) 
-            bulletSpawn.bulletType = "normal";        
+            bulletSpwn.bulletType = "normal";        
         if ( spreadPw ) 
-            bulletSpawn.bulletType = "spread";        
+            bulletSpwn.bulletType = "spread";        
         if ( sinusoidalPW ) 
-            bulletSpawn.bulletType = "sinusoidal";
+            bulletSpwn.bulletType = "sinusoidal";
 
         if (life <= 0 && amountOfLifes > 0)
         {
@@ -69,7 +70,9 @@ public class Character : MonoBehaviour {
     }
 
     public void Shoot() {
-        BulletSpawn.bulletPool.GetObject();
+        bulletSpwn.direction = characterViewDirection;
+        bulletSpwn.GetBullet();
+
     }
 
     public void Jump( float jumpForce ) {
