@@ -12,19 +12,18 @@ public class EnemySpawn : MonoBehaviour {
     public static EnemySpawn instance { get { return _instance; } }
 
     public int ammountOfEnemies;
-    public float distance;      //Distancia de que
-    public bool isActive;
-    public float Timer;
+    public float timer;
 
     void Awake() {
+
         _instance = this;
         _enemyPool = new Pool<Enemy>(15, EnemyFactory, Enemy.InitializeEnemy, Enemy.DisposeEnemy, true);
-        var _pos = GetComponentsInChildren<ChildFunctions>();
+
+        ChildFunctions[] _pos = GetComponentsInChildren<ChildFunctions>();
         foreach( var pos in _pos ) {
             positionToSpawn.Add(pos);
         }
     }
-
     void Update() {
         foreach ( var _pos in positionToSpawn ) {
             if ( _pos.collisioned ) {
@@ -35,8 +34,7 @@ public class EnemySpawn : MonoBehaviour {
                 enemy.GetObj.Initialize();
             }
         }
-        distance = Vector2.Distance(Character.myPos, transform.position);
-        Timer += Time.deltaTime;
+        timer += Time.deltaTime;
     }
 
     private Enemy EnemyFactory() {
@@ -49,10 +47,10 @@ public class EnemySpawn : MonoBehaviour {
 
     public void GetEnemy(Vector3 pos, int cant, float delay) {
         for ( int i = cant; i > 0; i-- ) {
-            if(Timer > delay ) {
+            if(timer > delay ) {
                 PoolObject<Enemy> en = _enemyPool.GetPoolObject();
                 Enemy.InitializeEnemy(en.GetObj);
-                Timer = 0;
+                timer = 0;
             }
         }
     }
