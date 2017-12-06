@@ -85,6 +85,7 @@
     <Compile Include="Assets\Scripts\Bullets\Sinusoidal.cs" />
     <Compile Include="Assets\Scripts\Bullets\Spread.cs" />
     <Compile Include="Assets\Scripts\Character.cs" />
+    <Compile Include="Assets\Scripts\ChildFunctions.cs" />
     <Compile Include="Assets\Scripts\Enemies\Boss.cs" />
     <Compile Include="Assets\Scripts\Enemies\Bridge.cs" />
     <Compile Include="Assets\Scripts\Enemies\Cannon.cs" />

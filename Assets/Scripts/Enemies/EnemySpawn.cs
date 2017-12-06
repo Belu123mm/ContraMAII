@@ -6,7 +6,7 @@ public class EnemySpawn : MonoBehaviour {
 
     public Enemy enemyPrefab;
     private Pool<Enemy> _enemyPool;
-    public List<Transform> positions = new List<Transform>();
+    public List<ChildFunctions> positionToSpawn = new List<ChildFunctions>();
 
     private static EnemySpawn _instance;
     public static EnemySpawn instance { get { return _instance; } }
@@ -14,14 +14,29 @@ public class EnemySpawn : MonoBehaviour {
     public int ammountOfEnemies;
     public float distance;      //Distancia de que
     public bool isActive;
+    public float Timer;
 
     void Awake() {
         _instance = this;
         _enemyPool = new Pool<Enemy>(15, EnemyFactory, Enemy.InitializeEnemy, Enemy.DisposeEnemy, true);
+        var _pos = GetComponentsInChildren<ChildFunctions>();
+        foreach( var pos in _pos ) {
+            positionToSpawn.Add(pos);
+        }
     }
 
     void Update() {
+        foreach ( var _pos in positionToSpawn ) {
+            if ( _pos.collisioned ) {
+                _pos.Desactive();
+                _pos.collisioned = false;
+                var enemy = _enemyPool.GetPoolObject();
+                enemy.GetObj.transform.position = _pos.transform.position;
+                enemy.GetObj.Initialize();
+            }
+        }
         distance = Vector2.Distance(Character.myPos, transform.position);
+        Timer += Time.deltaTime;
     }
 
     private Enemy EnemyFactory() {
@@ -32,13 +47,12 @@ public class EnemySpawn : MonoBehaviour {
         _enemyPool.Disable(enemy);
     }
 
-    public void OnCollisionEnter2D( Collision2D collision ) {
-        foreach ( var trigger in positions ) {
-            if ( collision.transform == trigger ) {
-                collision.collider.enabled = false;
-                //Aca haces lo del get object supongo, funciona como el start del enemigo relacionado al spawn
-                //Tene en cuenta que cada vez que toma la colision se desactiva el trigger, y que tenes que tomar como posicion 
-                //Del spawn el transform.position del trigger 
+    public void GetEnemy(Vector3 pos, int cant, float delay) {
+        for ( int i = cant; i > 0; i-- ) {
+            if(Timer > delay ) {
+                PoolObject<Enemy> en = _enemyPool.GetPoolObject();
+                Enemy.InitializeEnemy(en.GetObj);
+                Timer = 0;
             }
         }
     }
